@@ -750,7 +750,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                 newsType:$scope.params.newsType,
                 content:notice
             }
-            socket.emit('message',{msg:msgJson,to:$scope.params.chatId,role:'test'});
+            socket.emit('message',{msg:msgJson,to:$scope.params.chatId,role:'doctor'});
         }
     }
     function noMore(){
@@ -956,7 +956,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                 newsType:$scope.params.newsType,
                 content:endlMsg
             }
-            socket.emit('message',{msg:msgJson,to:$scope.params.chatId,role:'test'});
+            socket.emit('message',{msg:msgJson,to:$scope.params.chatId,role:'doctor'});
             $scope.counselstatus='0';
         });
         Counsel.changeCounselStatus({counselId:$state.params.counselId,status:0})
@@ -1099,7 +1099,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             // toBottom(true);
         // }
         console.info('socket.connected'+socket.connected);
-        socket.emit('message',{msg:msgJson,to:$scope.params.chatId,role:'test'});
+        socket.emit('message',{msg:msgJson,to:$scope.params.chatId,role:'doctor'});
         // if(type=='image'){
         //     msgJson.content.localId=content[2];
         //     msgJson.content.localId_thumb=content[3];
@@ -1957,7 +1957,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         }
         console.info('socket.connected'+socket.connected);
         console.log(msgJson);
-        socket.emit('message',{msg:msgJson,to:$scope.params.groupId,role:'test'});
+        socket.emit('message',{msg:msgJson,to:$scope.params.groupId,role:'doctor'});
     }
     function onSendSuccess(res) {
         console.log(res);
@@ -2153,7 +2153,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                         Account.modifyCounts({doctorId:DID,patientId:PID,modify:'-1'})
                         .then(function(){
                             socket.emit('newUser', { user_name: res.results.doctorId.name, user_id: DID });
-                            socket.emit('message', { msg: msgJson, to: PID ,role:'test'});
+                            socket.emit('message', { msg: msgJson, to: PID ,role:'doctor'});
                             // socket.on('messageRes', function(data) {
                             // socket.off('messageRes');
                             socket.emit('disconnect');
@@ -2283,7 +2283,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                     content:msgdata
                 }
                 socket.emit('newUser',{user_name:thisDoctor.name,user_id:thisDoctor.userId});
-                socket.emit('message',{msg:msgJson,to:doc.userId,role:'test'});
+                socket.emit('message',{msg:msgJson,to:doc.userId,role:'doctor'});
                 socket.on('messageRes',function(messageRes){
                     if(messageRes.msg.createTimeInMillis!=msgJson.createTimeInMillis) return;
                     var csl = messageRes.msg.content.counsel;
@@ -2415,7 +2415,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                         .then(function(data){
                             console.log(data);
                             socket.emit('newUser',{user_name:thisDoctor.name,user_id:thisDoctor.userId});
-                            socket.emit('message',{msg:msgJson,to:team.teamId,role:'test'});
+                            socket.emit('message',{msg:msgJson,to:team.teamId,role:'doctor'});
                             socket.on('messageRes',function(messageRes){
                                 if(messageRes.msg.createTimeInMillis!=msgJson.createTimeInMillis) return;
                                 socket.off('messageRes');

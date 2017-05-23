@@ -48,8 +48,8 @@ angular.module('kidney.services', ['ionic','ngResource'])
 .constant('CONFIG', {
     crossKey:'fe7b9ba069b80316653274e4',
     appKey: 'cf32b94444c4eaacef86903e',
-    baseUrl: 'http://121.43.107.106:4050/',
-    mediaUrl: 'http://121.43.107.106:8052/',
+    baseUrl: 'http://121.196.221.44:4050/',
+    mediaUrl: 'http://121.196.221.44:8052/',
     cameraOptions: {
         cam: {
             quality: 60,
@@ -2493,7 +2493,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
             //  url:'patient_class'
            // }
     self.settingConfig = function(params){
-        params.role = "test";
+        params.role = "doctor";
         var deferred = $q.defer();
         Data.wechat.settingConfig(
             params,
@@ -2509,7 +2509,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
             //  code:'3'
             // }
     self.getUserInfo = function(params){
-        params.role = "test";;
+        params.role = "doctor";;
         var deferred = $q.defer();
         Data.wechat.getUserInfo(
             params,
@@ -2526,7 +2526,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
             //  name:
             // }
     self.download = function(params){
-        params.role = "test";
+        params.role = "doctor";
         var deferred = $q.defer();
         Data.wechat.download(
             params,
@@ -2553,7 +2553,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
     };
     
     self.createTDCticket = function(params){
-        params.role = "test";
+        params.role = "patient";
         var deferred = $q.defer();
         Data.wechat.createTDCticket(
             params,
