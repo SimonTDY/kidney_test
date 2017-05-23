@@ -126,30 +126,29 @@ angular.module('kidney',[
                         
                         jmapi.users(data.results.userId);
 
-                        Doctor.getDoctorInfo({userId:Storage.get("UID")})
-                        .then(function(res){
-                            if(res.results.photoUrl==undefined||res.results.photoUrl==""){
-                                Doctor.editDoctorDetail({userId:Storage.get("UID"),photoUrl:wechatData.headimgurl}).then(function(r){
-                                    console.log(r);
-                                })
-                            }
-                        },function(err){
-                        }) 
-                        User.getMessageOpenId({type:2,userId:Storage.get("UID")}).then(function(res){
-                            if (res.results == undefined || res.results == null)
-                            {
-                              User.setMessageOpenId({type:2,userId:Storage.get("UID"),openId:Storage.get('messageopenid')}).then(function(res){
-                                  console.log("setopenid");
-                              },function(){
-                                  console.log("连接超时！");
-                              })
-                            }
-                        },function(){
-                            console.log("连接超时！");
-                        })
                         User.getAgree({userId:data.results.userId}).then(function(res){
                             if(res.results.agreement=="0"){
-                                $state.go('tab.home');
+                                Doctor.getDoctorInfo({userId:Storage.get("UID")})
+                                .then(function(res){
+                                    if(res.results.photoUrl==undefined||res.results.photoUrl==""){
+                                        Doctor.editDoctorDetail({userId:Storage.get("UID"),photoUrl:wechatData.headimgurl}).then(function(r){
+                                            User.setMessageOpenId({type:1,userId:Storage.get("UID"),openId:Storage.get('messageopenid')}).then(function(res){
+                                                $state.go('tab.home');
+                                            },function(){
+                                                console.log("连接超时！");
+                                            })
+                                        })
+                                    }
+                                    else
+                                    {
+                                        User.setMessageOpenId({type:1,userId:Storage.get("UID"),openId:Storage.get('messageopenid')}).then(function(res){
+                                            $state.go('tab.home');
+                                        },function(){
+                                            console.log("连接超时！");
+                                        })
+                                    }
+                                },function(err){
+                                }) 
                             }else{
                                 $state.go('agreement',{last:'signin'});
                             }
