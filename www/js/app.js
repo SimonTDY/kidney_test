@@ -170,6 +170,7 @@ angular.module('kidney',[
                             $state.go('agreement',{last:'signin'});
                           }
                         })
+                       
                         
                     }
                 },
