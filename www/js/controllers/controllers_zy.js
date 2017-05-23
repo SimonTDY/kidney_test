@@ -374,7 +374,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
                           User.setOpenId({phoneNo:Verify.Phone,openId:Storage.get('openid')}).then(function(data){
                               if(data.results == "success!")
                               {
-                                User.setMessageOpenId({type:1,userId:tempuserId,openId:Storage.get('messageopenid')}).then(function(res){
+                                User.setMessageOpenId({type:5,userId:tempuserId,openId:Storage.get('messageopenid')}).then(function(res){
                                     console.log("setopenid");
                                 },function(){
                                     console.log("连接超时！");
@@ -690,7 +690,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
                             {
                                 if(data.results == "success!")
                                 {
-                                    User.setMessageOpenId({type:1,userId:Storage.get('UID'),openId:Storage.get('messageopenid')}).then(function(res){
+                                    User.setMessageOpenId({type:5,userId:Storage.get('UID'),openId:Storage.get('messageopenid')}).then(function(res){
                                         console.log("setopenid");
                                     },function(){
                                         console.log("连接超时！");
@@ -800,10 +800,10 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
           $timeout(function(){
             $ionicLoading.hide();
             if($scope.flag==0){
-                $scope.doctor.certificatePhotoUrl="http://121.196.221.44:8052/uploads/photos/"+temp_photoaddress
+                $scope.doctor.certificatePhotoUrl="http://121.43.107.106:8052/uploads/photos/"+temp_photoaddress
             }
             else{
-                $scope.doctor.practisingPhotoUrl="http://121.196.221.44:8052/uploads/photos/"+temp_photoaddress
+                $scope.doctor.practisingPhotoUrl="http://121.43.107.106:8052/uploads/photos/"+temp_photoaddress
             }
           },1000)
         },function(err){
@@ -1108,7 +1108,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
     {
         $http({
             method:'GET',
-            url:'http://121.196.221.44:4050/user/getPhoneNoByRole?role=patient'
+            url:'http://121.43.107.106:4050/user/getPhoneNoByRole?role=patient'
         })
         .success(function(data)
         {
@@ -1121,7 +1121,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
         })
         $http({
             method:'GET',
-            url:'http://121.196.221.44:4050/user/getPhoneNoByRole?role=doctor'
+            url:'http://121.43.107.106:4050/user/getPhoneNoByRole?role=doctor'
         })
         .success(function(data)
         {
@@ -1901,7 +1901,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
           //图片路径
           $timeout(function(){
               $ionicLoading.hide();
-              $scope.doctor.photoUrl="http://121.196.221.44:8052/uploads/photos/"+temp_name+'?'+new Date().getTime();
+              $scope.doctor.photoUrl="http://121.43.107.106:8052/uploads/photos/"+temp_name+'?'+new Date().getTime();
               
               console.log($scope.doctor.photoUrl)
               // $state.reload("tab.mine")
@@ -2369,10 +2369,10 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
       $timeout(function(){
             $ionicLoading.hide();
             if($scope.flag==0){
-                $scope.doctor.certificatePhotoUrl="http://121.196.221.44:8052/uploads/photos/"+temp_photoaddress
+                $scope.doctor.certificatePhotoUrl="http://121.43.107.106:8052/uploads/photos/"+temp_photoaddress
             }
             else{
-                $scope.doctor.practisingPhotoUrl="http://121.196.221.44:8052/uploads/photos/"+temp_photoaddress
+                $scope.doctor.practisingPhotoUrl="http://121.43.107.106:8052/uploads/photos/"+temp_photoaddress
             }
           },1000)
       
