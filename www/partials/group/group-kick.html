@@ -1,0 +1,20 @@
+<ion-view hide-tabs view-title="团队管理">
+    <ion-nav-bar class="bar-positive " align-title="center">
+        <ion-nav-buttons side="left">
+          <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="$ionicGoBack()"></button>
+        </ion-nav-buttons>
+      </ion-nav-bar> 
+    <ion-content style="padding-top:10px" class="gray-back">
+        <div class="list">
+            <div class="item item-avatar" ng-repeat="d in doctors">
+                <img src="{{d.photoUrl || 'img/DefaultAvatar.jpg'}}">
+                <div class="doctor-msg-left balanced balanced-border">{{teamname}}</div>
+                <div style="display:inline-block;width:70%">
+                    <span>{{d.name}}</span> {{d.title}}
+                    <p><span>{{d.userId}}</span></p>
+                </div>
+                <button id="kickhim" style="display:inline-block;width:auto;background-color: #00C853;height:100%;float:right;padding:0.4em 0.6em;border-radius: 0.5em;color:#FFF" ng-click="kick($index)">移除</button>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
