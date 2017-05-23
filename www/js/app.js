@@ -51,10 +51,10 @@ angular.module('kidney',[
                             },function(){
                                 console.log("连接超时！");
                             })
-                            User.getMessageOpenId({type:5,userId:data.UserId}).then(function(res){
+                            User.getMessageOpenId({type:2,userId:data.UserId}).then(function(res){
                                 if (res.results == undefined || res.results == null)
                                 {
-                                  User.setMessageOpenId({type:5,userId:data.UserId,openId:wechatData.openid}).then(function(res){
+                                  User.setMessageOpenId({type:2,userId:data.UserId,openId:wechatData.openid}).then(function(res){
                                       console.log("setopenid");
                                   },function(){
                                       console.log("连接超时！");
@@ -135,10 +135,10 @@ angular.module('kidney',[
                             }
                         },function(err){
                         }) 
-                        User.getMessageOpenId({type:5,userId:Storage.get("UID")}).then(function(res){
+                        User.getMessageOpenId({type:2,userId:Storage.get("UID")}).then(function(res){
                             if (res.results == undefined || res.results == null)
                             {
-                              User.setMessageOpenId({type:5,userId:Storage.get("UID"),openId:Storage.get('messageopenid')}).then(function(res){
+                              User.setMessageOpenId({type:2,userId:Storage.get("UID"),openId:Storage.get('messageopenid')}).then(function(res){
                                   console.log("setopenid");
                               },function(){
                                   console.log("连接超时！");

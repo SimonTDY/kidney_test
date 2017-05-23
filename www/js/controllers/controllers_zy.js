@@ -374,7 +374,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
                           User.setOpenId({phoneNo:Verify.Phone,openId:Storage.get('openid')}).then(function(data){
                               if(data.results == "success!")
                               {
-                                User.setMessageOpenId({type:5,userId:tempuserId,openId:Storage.get('messageopenid')}).then(function(res){
+                                User.setMessageOpenId({type:2,userId:tempuserId,openId:Storage.get('messageopenid')}).then(function(res){
                                     console.log("setopenid");
                                 },function(){
                                     console.log("连接超时！");
@@ -690,7 +690,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
                             {
                                 if(data.results == "success!")
                                 {
-                                    User.setMessageOpenId({type:5,userId:Storage.get('UID'),openId:Storage.get('messageopenid')}).then(function(res){
+                                    User.setMessageOpenId({type:2,userId:Storage.get('UID'),openId:Storage.get('messageopenid')}).then(function(res){
                                         console.log("setopenid");
                                     },function(){
                                         console.log("连接超时！");
