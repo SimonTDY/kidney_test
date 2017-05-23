@@ -17,9 +17,9 @@ angular.module('kidney',[
     'kidney.icon_filter'
 ])
 
-.run(['$ionicPlatform', '$state', 'Storage', 'JM','$ionicHistory','$rootScope','CONFIG','Communication', '$location','wechat','$window','User','Doctor','jmapi','$ionicPopup',function($ionicPlatform, $state, Storage, JM,$ionicHistory,$rootScope,CONFIG,Communication,$location,wechat,$window,User,Doctor,jmapi,$ionicPopup) {
+.run(['$ionicPlatform', '$state', 'Storage', 'JM','$ionicHistory','$rootScope','CONFIG','Communication', '$location','wechat','$window','User','Doctor','jmapi','$ionicPopup','$q',function($ionicPlatform, $state, Storage, JM,$ionicHistory,$rootScope,CONFIG,Communication,$location,wechat,$window,User,Doctor,jmapi,$ionicPopup,$q) {
     $ionicPlatform.ready(function() {
-        socket = io.connect('ws://121.196.221.44:4050/chat');
+        socket = io.connect('ws://121.43.107.106:4050/chat');
         
 
         var temp = $location.absUrl().split('=')
@@ -126,34 +126,49 @@ angular.module('kidney',[
                         
                         jmapi.users(data.results.userId);
 
-                        User.getAgree({userId:data.results.userId}).then(function(res){
-                            if(res.results.agreement=="0"){
-                                Doctor.getDoctorInfo({userId:Storage.get("UID")})
-                                .then(function(res){
-                                    if(res.results.photoUrl==undefined||res.results.photoUrl==""){
-                                        Doctor.editDoctorDetail({userId:Storage.get("UID"),photoUrl:wechatData.headimgurl}).then(function(r){
-                                            User.setMessageOpenId({type:1,userId:Storage.get("UID"),openId:Storage.get('messageopenid')}).then(function(res){
-                                                $state.go('tab.home');
-                                            },function(){
-                                                console.log("连接超时！");
-                                            })
-                                        })
-                                    }
-                                    else
-                                    {
-                                        User.setMessageOpenId({type:1,userId:Storage.get("UID"),openId:Storage.get('messageopenid')}).then(function(res){
-                                            $state.go('tab.home');
-                                        },function(){
-                                            console.log("连接超时！");
-                                        })
-                                    }
-                                },function(err){
-                                }) 
-                            }else{
-                                $state.go('agreement',{last:'signin'});
+                        var results = []
+                        var errs = []
+                        $q.all([
+                            User.getAgree({userId:data.results.userId}).then(function(res){
+                                results.push(res)
+                            },function(err){
+                                errs.push(err)
+                            }),
+                            User.setMessageOpenId({type:1,userId:Storage.get("UID"),openId:Storage.get('messageopenid')}).then(function(res){
+                                results.push(res)
+                            },function(err){
+                                errs.push(err)
+                            }),
+                            Doctor.getDoctorInfo({userId:Storage.get("UID")}).then(function(res){
+                                results.push(res)
+                            },function(err){
+                                errs.push(err)
+                            })
+                        ]).then(function(){
+                          console.log(results)
+                          if(results[0].results.agreement=="0")
+                          {
+                            if (results[2].results != null)
+                            {
+                              if(results[2].results.photoUrl==undefined||results[2].results.photoUrl==""){
+                                Doctor.editDoctorDetail({userId:Storage.get("UID"),photoUrl:wechatData.headimgurl}).then(function(r){
+                                  $state.go('tab.home');
+                                })
+                              }
+                              else
+                              {
+                                $state.go('tab.home');
+                              }
                             }
-                        },function(err){
-                            console.log(err);
+                            else
+                            {
+                              $state.go('tab.home');
+                            }
+                          }
+                          else
+                          {
+                            $state.go('agreement',{last:'signin'});
+                          }
                         })
                         
                     }
