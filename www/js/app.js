@@ -51,10 +51,10 @@ angular.module('kidney',[
                             },function(){
                                 console.log("连接超时！");
                             })
-                            User.getMessageOpenId({type:2,userId:data.UserId}).then(function(res){
+                            User.getMessageOpenId({type:1,userId:data.UserId}).then(function(res){
                                 if (res.results == undefined || res.results == null)
                                 {
-                                  User.setMessageOpenId({type:2,userId:data.UserId,openId:wechatData.openid}).then(function(res){
+                                  User.setMessageOpenId({type:1,userId:data.UserId,openId:wechatData.openid}).then(function(res){
                                       console.log("setopenid");
                                   },function(){
                                       console.log("连接超时！");
