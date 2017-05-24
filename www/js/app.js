@@ -762,7 +762,6 @@ angular.module('kidney',[
                     controller: 'GroupKickCtrl'
                 }
             }
-            // params:{teamId:null}
         })
     .state('tab.group-add-member', {
             //type : 'new'表示从新建组进来的，不是'new'就是已有team加成员
@@ -774,7 +773,6 @@ angular.module('kidney',[
                     controller: 'GroupAddMemberCtrl'
                 }
             }
-            // params:{teamId:null}
         })
     .state('tab.group-detail', {
             url: '/groups/:teamId/detail',
@@ -785,7 +783,6 @@ angular.module('kidney',[
                     controller: 'GroupDetailCtrl'
                 }
             }
-            // params:{teamId:null}
         })
     .state('tab.group-qrcode', {
             url: '/groups/qrcode',
@@ -818,7 +815,6 @@ angular.module('kidney',[
                     controller: 'GroupConclusionCtrl'
                 }
             }
-            // params:{groupId:null,teamId:null}
         })
     .state('tab.group-patient', {
         // cache: false,
@@ -842,7 +838,6 @@ angular.module('kidney',[
                 templateUrl: 'partials/group/profile.html'
             }
         }
-        // params:{memberId:null}
     })
 
     // views-tab-me

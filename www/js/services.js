@@ -1801,6 +1801,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
             .then(function(res){
                 var msgs=res.results;
                 arr.map(function(item){
+                    if(item===null) return item;
                     var pos = getIndex(msgs,item[idName]);
                     if(pos!=-1){
                         item.lastMsg= addLastMsg(type,userId,msgs[pos]);
@@ -1825,6 +1826,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
             .then(function(res){
                 var msgs=res.results;
                 arr.map(function(item){
+                    if(item[keyName]===null) return item;
                     var pos = getIndex(msgs,item[keyName][idName]);
                     if(pos!=-1){
                         item.lastMsg= addLastMsg(type,userId,msgs[pos]);
