@@ -373,7 +373,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
     }
 }])
 
-.controller('GroupAddCtrl', ['$scope', '$state','$ionicHistory','Communication','$ionicPopup', 'Storage','Doctor','$ionicLoading','CONFIG','jmapi',function($scope, $state,$ionicHistory,Communication,$ionicPopup,Storage,Doctor,$ionicLoading,CONFIG,jmapi) {
+.controller('GroupAddCtrl', ['$scope', '$state','$ionicHistory','Communication','$ionicPopup', 'Storage','Doctor','$ionicLoading','CONFIG','jmapi','$http',function($scope, $state,$ionicHistory,Communication,$ionicPopup,Storage,Doctor,$ionicLoading,CONFIG,jmapi,$http) {
   $scope.$on('$ionicView.beforeEnter',function(){
           $scope.me=[{userId:'',name:'',photoUrl:''}];
          Communication.getTeam({teamId:$state.params.teamId})
