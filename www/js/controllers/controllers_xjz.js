@@ -213,9 +213,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
     }
 }])
 //我的团队
-.controller('groupsCtrl', ['$scope', '$http', '$state', '$ionicPopover', 'Doctor', 'Storage', 'Patient','arrTool','$q','wechat','$location','New','$interval',function($scope, $http, $state, $ionicPopover, Doctor, Storage, Patient,arrTool,$q,wechat,$location,New,$interval) {
-    // $scope.teams=[];
-    // $scope.doctors=[];
+.controller('groupsCtrl', ['$scope', '$http', '$state', '$ionicPopover','$ionicScrollDelegate', 'Doctor', 'Storage', 'Patient','arrTool','$q','wechat','$location','New','$interval',function($scope, $http, $state, $ionicPopover,$ionicScrollDelegate, Doctor, Storage, Patient,arrTool,$q,wechat,$location,New,$interval) {
     $scope.countAllDoc='?';
     $scope.query = {
         name: ''
@@ -290,9 +288,13 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         $scope.$broadcast('scroll.refreshComplete');
     }
     $scope.showTeams = function() {
+        $scope.load();
+        $ionicScrollDelegate.scrollTop();
         $scope.params.isTeam = true;
     }
     $scope.showDocs = function() {
+        $scope.load();
+        $ionicScrollDelegate.scrollTop();
         $scope.params.isTeam = false;
     }
     $scope.search = function() {
@@ -529,7 +531,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                             }
                         });
                     }
-                })
+                });
 
             },function(err){
                 console.log(err);
@@ -589,50 +591,48 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                     $scope.$apply(function(){
                         $scope.pushMsg(data.msg);
                     });
+                    if($scope.params.type != '2' && data.msg.targetType=='custom' && (data.msg.content.type=='card' || data.msg.content.type=='counsel-payment')){
+                        Communication.getCounselReport({counselId:data.msg.content.counselId})
+                        .then(function(data){
+                            console.log(data)
+                            $scope.params.counsel = data.results;
+                            $scope.counseltype= data.results.type=='3'?'2':data.results.type;
+                            $scope.counselstatus=data.results.status;
+                            $scope.params.realCounselType=data.results.type;
+                        },function(err){
+                            console.log(err);
+                        })
+                    }
+                    if(data.msg.contentType=='custom' && data.msg.content.type=='counsel-upgrade'){
+                        $scope.$apply(function(){
+                            $scope.counseltype='2';
+                        });
+                        $scope.counselstatus=1;
+                    }
+                    New.insertNews({userId:$scope.params.UID,sendBy:$scope.params.chatId,type:$scope.params.newsType,readOrNot:1});
                 }
-                if($scope.params.type != '2' && data.msg.targetType=='custom' && (data.msg.content.type=='card' || data.msg.content.type=='counsel-payment')){
-                    Communication.getCounselReport({counselId:data.msg.content.counselId})
-                    .then(function(data){
-                        console.log(data)
-                        $scope.params.counsel = data.results;
-                        $scope.counseltype= data.results.type=='3'?'2':data.results.type;
-                        $scope.counselstatus=data.results.status;
-                        $scope.params.realCounselType=data.results.type;
-                    },function(err){
-                        console.log(err);
-                    })
-                }
-                if(data.msg.contentType=='custom' && data.msg.content.type=='counsel-upgrade'){
-                    $scope.$apply(function(){
-                        $scope.counseltype='2';
-                    });
-                    $scope.counselstatus=1;
-                }
-                New.insertNews({userId:$scope.params.UID,sendBy:$scope.params.chatId,type:$scope.params.newsType,readOrNot:1});
-                                // $rootScope.$broadcast('receiveMessage',data);
             });
             socket.on('messageRes',function(data){
                 console.info('messageRes');
                 console.log(data);
                 if (data.msg.targetType == 'single' && data.msg.targetID == $state.params.chatId) {
-                        $scope.$apply(function(){
-                            $scope.pushMsg(data.msg);
+                    $scope.$apply(function(){
+                        $scope.pushMsg(data.msg);
+                    });
+                    if($scope.counselstatus==1 && $scope.counseltype==1 && !(data.msg.contentType=='custom' && data.msg.content.type=='count-notice')){
+                        Account.modifyCounts({doctorId:Storage.get('UID'),patientId:$scope.params.chatId,modify:'-1'})
+                        .then(function(){
+                            Account.getCounts({doctorId:Storage.get('UID'),patientId:$scope.params.chatId})
+                            .then(function(data){
+                                if(data.result.count<=0){
+                                    $scope.counselstatus=0;
+                                    $scope.params.title="咨询";
+                                    endCounsel(1);
+                                }
+                            });
                         });
+                    }
                 }
-                if($scope.counselstatus==1 && $scope.counseltype==1 && !(data.msg.contentType=='custom' && data.msg.content.type=='count-notice')){
-                    Account.modifyCounts({doctorId:Storage.get('UID'),patientId:$scope.params.chatId,modify:'-1'})
-                    .then(function(){
-                        Account.getCounts({doctorId:Storage.get('UID'),patientId:$scope.params.chatId})
-                        .then(function(data){
-                            if(data.result.count<=0){
-                                $scope.counselstatus=0;
-                                $scope.params.title="咨询";
-                                endCounsel(1);
-                            }
-                        })
-                    })
-                }
-                // $rootScope.$broadcast('messageResponse',data);
             });
             $scope.params.connect=true;
         },function(err){
@@ -1553,8 +1553,8 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                         $scope.$apply(function(){
                             $scope.pushMsg(data.msg);
                         });
+                        New.insertNews({userId:$scope.params.UID,sendBy:$scope.params.groupId,type:$scope.params.newsType,readOrNot:1});
                     }
-                    New.insertNews({userId:$scope.params.UID,sendBy:$scope.params.groupId,type:$scope.params.newsType,readOrNot:1});
                                     // $rootScope.$broadcast('receiveMessage',data);
                 });
                 socket.on('messageRes',function(data){
@@ -2137,21 +2137,63 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
 
                             }
                         }
-                        Account.modifyCounts({doctorId:DID,patientId:PID,modify:'-1'})
-                        .then(function(){
+                        if(res.results.type!='1' || res.results.status==0){
                             socket.emit('newUser', { user_name: res.results.doctorId.name, user_id: DID });
                             socket.emit('message', { msg: msgJson, to: PID ,role:'doctor'});
                             // socket.on('messageRes', function(data) {
                             // socket.off('messageRes');
                             socket.emit('disconnect');
-                            // $state.go('tab.detail', { type: '2', chatId: doc.userId, counselId: msgdata.counselId });
-                            // })
                             $ionicLoading.show({ template: '回复成功', duration: 1500 });
                             setTimeout(function() {
                                 $state.go('tab.groups', { type: '0' });
                             }, 1500);
-                        })
-                    })
+                        }else{
+                            Account.modifyCounts({doctorId:DID,patientId:PID,modify:'-1'})
+                            .then(function(){
+                                Account.getCounts({doctorId:DID,patientId:PID})
+                                .then(function(response){
+                                    socket.emit('newUser', { user_name: res.results.doctorId.name, user_id: DID });
+                                    socket.emit('message', { msg: msgJson, to: PID ,role:'doctor'});
+                                    // socket.on('messageRes', function(data) {
+                                    // socket.off('messageRes');
+                                    
+                                    if(response.result.count<=0){
+                                        var endlMsg={
+                                            type:'endl',
+                                            info:"咨询已结束",
+                                            docId:DID,
+                                            counseltype:1
+                                        }
+                                        var endJson={
+                                            contentType:'custom',
+                                            fromID:DID,
+                                            fromName:res.results.doctorId.name,
+                                            fromUser:{
+                                                avatarPath:CONFIG.mediaUrl+'uploads/photos/resized'+DID+'_myAvatar.jpg'
+                                            },
+                                            targetID:PID,
+                                            targetName:res.results.patientId.name,
+                                            targetType:'single',
+                                            status:'send_going',
+                                            createTimeInMillis: Date.now(),
+                                            newsType:'11',
+                                            content:endlMsg
+                                        }
+                                        socket.emit('message', { msg: endJson, to: PID ,role:'doctor'});
+                                    }
+                                    socket.emit('disconnect');
+                                    // $state.go('tab.detail', { type: '2', chatId: doc.userId, counselId: msgdata.counselId });
+                                    // })
+                                    $ionicLoading.show({ template: '回复成功', duration: 1500 });
+                                    setTimeout(function() {
+                                        $state.go('tab.groups', { type: '0' });
+                                    }, 1500);
+
+                                });
+
+                            });
+                        }
+                    });
 
             }, function(err) {
                 console.log(err);
