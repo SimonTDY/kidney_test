@@ -128,6 +128,22 @@ angular.module('kidney',[
 
                         var results = []
                         var errs = []
+                        var a,b,c;
+                        for(var i in results)
+                        {
+                            if (results[i].results.agreement != undefined)
+                            {
+                              a=i;
+                            }
+                            else if (results[i].results.userId != undefined)
+                            {   
+                              b=i;
+                            }
+                            else
+                            {
+                              c=i;
+                            }
+                        }
                         $q.all([
                             User.getAgree({userId:data.results.userId}).then(function(res){
                                 results.push(res)
@@ -146,11 +162,11 @@ angular.module('kidney',[
                             })
                         ]).then(function(){
                           console.log(results)
-                          if(results[0].results.agreement=="0")
+                          if(results[a].results.agreement=="0")
                           {
-                            if (results[2].results != null)
+                            if (results[b].results != null)
                             {
-                              if(results[2].results.photoUrl==undefined||results[2].results.photoUrl==""){
+                              if(results[b].results.photoUrl==undefined||results[b].results.photoUrl==""){
                                 Doctor.editDoctorDetail({userId:Storage.get("UID"),photoUrl:wechatData.headimgurl}).then(function(r){
                                   $state.go('tab.home');
                                 })
