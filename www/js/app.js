@@ -128,7 +128,7 @@ angular.module('kidney',[
 
                         var results = []
                         var errs = []
-                        var a,b,c;
+                        
                         
                         $q.all([
                             User.getAgree({userId:data.results.userId}).then(function(res){
@@ -148,21 +148,22 @@ angular.module('kidney',[
                             })
                         ]).then(function(){
                           console.log(results)
+                          var a,b,c;
                           for(var i in results)
+                          {
+                            if (results[i].results.agreement != undefined)
                             {
-                                if (results[i].results.agreement != undefined)
-                                {
-                                  a=i;
-                                }
-                                else if (results[i].results.userId != undefined)
-                                {   
-                                  b=i;
-                                }
-                                else
-                                {
-                                  c=i;
-                                }
+                              a=i;
                             }
+                            else if (results[i].results.userId != undefined)
+                            {   
+                              b=i;
+                            }
+                            else
+                            {
+                              c=i;
+                            }
+                          }
                           if(results[a].results.agreement=="0")
                           {
                             if (results[b].results != null)
