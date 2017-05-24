@@ -1686,7 +1686,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
 }])
 
 //"患者”详情子页
-.controller('patientDetailCtrl', ['Insurance','Storage','Doctor','Patient','$scope','$ionicPopup','$ionicHistory','$state', 'New',function(Insurance,Storage,Doctor,Patient,$scope, $ionicPopup,$ionicHistory,$state,New) {
+.controller('patientDetailCtrl', ['Insurance','Storage','Doctor','Patient','$scope','$ionicPopup','$ionicHistory','$state', 'New','$ionicLoading',function(Insurance,Storage,Doctor,Patient,$scope, $ionicPopup,$ionicHistory,$state,New,$ionicLoading) {
     $scope.hideTabs = true;
 
     // var patient = DoctorsInfo.searchdoc($stateParams.doctorId);
@@ -1752,16 +1752,18 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
             }
             $scope.patient=data.results; 
             if (data.recentDiagnosis != null){
-                $scope.RecentDiagnosis=data.recentDiagnosis[0]; 
-                if ($scope.RecentDiagnosis.name == "class_4"){
-                    $scope.RecentDiagnosis.time = null
-                    $scope.RecentDiagnosis.progress = null
-                }else if ($scope.RecentDiagnosis.name == "class_2"|| $scope.RecentDiagnosis.name == "class_3"){
-                    $scope.RecentDiagnosis.time = null
-                }else if ($scope.RecentDiagnosis.name == "class_5"|| $scope.RecentDiagnosis.name == "class_6" || $scope.RecentDiagnosis.name == "class_1"){
-                    $scope.RecentDiagnosis.progress = null
-                }                
-            }      
+                $scope.RecentDiagnosis=data.recentDiagnosis[0];
+                if($scope.RecentDiagnosis!= null) {
+                    if ($scope.RecentDiagnosis.name == "class_4"){
+                        $scope.RecentDiagnosis.time = null
+                        $scope.RecentDiagnosis.progress = null
+                    }else if ($scope.RecentDiagnosis.name == "class_2"|| $scope.RecentDiagnosis.name == "class_3"){
+                        $scope.RecentDiagnosis.time = null
+                    }else if ($scope.RecentDiagnosis.name == "class_5"|| $scope.RecentDiagnosis.name == "class_6" || $scope.RecentDiagnosis.name == "class_1"){
+                        $scope.RecentDiagnosis.progress = null
+                    }                      
+                }
+            }        
             console.log($scope.RecentDiagnosis)  
         },
         function(err)
@@ -1813,6 +1815,10 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
                 .then(
                     function(data)
                     {
+                        $ionicLoading.show({
+                            template: '推送成功',
+                            duration:1000
+                        });
                         console.log(data)                 
                     },
                     function(err)
