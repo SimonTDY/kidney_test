@@ -142,7 +142,7 @@ angular.module('kidney',[
                         
                         if (state == "qrcode")
                         {
-                            $state.go('tab.QRcode')
+                            $state.go('myqrcode')
                         }
                         else
                         {
@@ -512,8 +512,14 @@ angular.module('kidney',[
       url:'/messagesDetail',
       templateUrl:'partials/others/VaryMessage.html',
       controller:'VaryMessageCtrl'
+    })    
+    //我的二维码(独立页面)
+    .state('myqrcode', {
+        cache:false,
+        url:'/myqrcode',
+        templateUrl:'partials/others/myqrcode.html',
+        controller:'QRcodeCtrl'
     })
-    
     
     //选项卡
     .state('tab', {
@@ -892,7 +898,7 @@ angular.module('kidney',[
             }
         }
     })
-            
+
     //我的信息
     .state('tab.myinfo', {
         // cache: false,
