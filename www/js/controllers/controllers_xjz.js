@@ -389,8 +389,12 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
 
     })
     $scope.request =function(){
-         var audio = new Audio('http://121.43.107.106:8052/uploads/photos/Emotions.mp3');
-            audio.play();
+        $http.get('http://121.43.107.106:8052/uploads/photos/Emotions.mp3').then(function(data){
+             var audio = new Audio('http://121.43.107.106:8052/uploads/photos/Emotions.mp3');
+            audio.play();  
+            })
+
+         
          var confirmPopup = $ionicPopup.confirm({
             title: '确定要加入吗?',
             // template: '确定要结束此次咨询吗?'
@@ -423,6 +427,8 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         });
 
             } else {
+                var audio = new Audio('http://121.43.107.106:8052/uploads/photos/Emotions-small.mp3');
+            audio.play(); 
                 console.log('You are not sure');
             }
         });
