@@ -173,21 +173,33 @@ angular.module('kidney',[
                        
                         
                     }
+                    else
+                    {
+                        $state.go('signin')
+                    }
                 },
                 function(data){
                     if(data.results==null && data.status==0){
                         $scope.logStatus = "网络错误！";
+                        $state.go('signin')
                         return;
                     }
                     if(data.status==404){
                         $scope.logStatus = "连接服务器失败！";
+                        $state.go('signin')
                         return;
                     }
+                    $state.go('signin')
                 });
             },function(err){
               console.log(err)
+              $state.go('signin')
               // alert(2);
             })
+        }
+        else
+        {
+            $state.go('signin')
         }
 
         //是否登陆
@@ -955,7 +967,7 @@ angular.module('kidney',[
     })
 
 
-    $urlRouterProvider.otherwise('/signin');
+    // $urlRouterProvider.otherwise('/signin');
 
 })
 .controller('tabCtrl',['$state','$scope',function($state,$scope){
