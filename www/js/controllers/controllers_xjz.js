@@ -573,7 +573,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                     $scope.$apply(function(){
                         $scope.pushMsg(data.msg);
                     });
-                    if($scope.params.type != '2' && data.msg.targetType=='custom' && (data.msg.content.type=='card' || data.msg.content.type=='counsel-payment')){
+                    if($scope.params.type != '2' && data.msg.contentType=='custom' && (data.msg.content.type=='card' || data.msg.content.type=='counsel-payment')){
                         Communication.getCounselReport({counselId:data.msg.content.counselId})
                         .then(function(data){
                             console.log(data)
@@ -1973,7 +1973,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
     }
 }])
 //病历结论
-.controller('GroupConclusionCtrl',['$state','$scope','$ionicModal','$ionicScrollDelegate','Communication','$ionicLoading','CONFIG','Account',function($state,$scope,$ionicModal,$ionicScrollDelegate,Communication,$ionicLoading,CONFIG,Account){
+.controller('GroupConclusionCtrl',['$state','$scope','$ionicModal','$ionicScrollDelegate','Communication','$ionicLoading','CONFIG','Account','Counsel',function($state,$scope,$ionicModal,$ionicScrollDelegate,Communication,$ionicLoading,CONFIG,Account,Counsel){
     $scope.input = {
         text: ''
     }
@@ -2113,6 +2113,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                                             content:endlMsg
                                         }
                                         socket.emit('message', { msg: endJson, to: PID ,role:'doctor'});
+                                        Counsel.changeCounselStatus({counselId:res.results.counselId,status:0})
                                     }
                                     socket.emit('disconnect');
                                     // $state.go('tab.detail', { type: '2', chatId: doc.userId, counselId: msgdata.counselId });
