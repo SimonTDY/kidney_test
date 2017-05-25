@@ -868,6 +868,7 @@ angular.module('kidney',[
         url: '/bill',
         views: {
             'tab-me':{
+                cache: false,
                 controller: 'billCtrl',
                 templateUrl: 'partials/me/bill.html'
             }
