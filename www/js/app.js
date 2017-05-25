@@ -26,9 +26,20 @@ angular.module('kidney',[
         // alert(temp)
         if (angular.isDefined(temp[1]) == true)
         {
-            var code = temp[1].split('#')[0]
-            Storage.set('code',code)
+            if (angular.isDefined(temp[2]) == true)
+            {
+                var code = temp[1].split('&')[0]
+                var state = temp[2].split('#')[0]
+                Storage.set('code',code)
+            }
+            else
+            {
+                var code = temp[1].split('#')[0]
+                Storage.set('code',code)
+            }
+            
         }
+
         var wechatData = ""
         if (code != '' && code != undefined)
         {
@@ -129,8 +140,13 @@ angular.module('kidney',[
                         var results = []
                         var errs = []
                         
-                        
-                        $q.all([
+                        if (state == "qrcode")
+                        {
+                            $state.go('myqrcode')
+                        }
+                        else
+                        {
+                            $q.all([
                             User.getAgree({userId:data.results.userId}).then(function(res){
                                 results.push(res)
                             },function(err){
@@ -146,50 +162,49 @@ angular.module('kidney',[
                             },function(err){
                                 errs.push(err)
                             })
-                        ]).then(function(){
-                          console.log(results)
-                          var a,b,c;
-                          for(var i in results)
-                          {
-                            if (results[i].results.agreement != undefined)
-                            {
-                              a=i;
-                            }
-                            else if (results[i].results.userId != undefined)
-                            {   
-                              b=i;
-                            }
-                            else
-                            {
-                              c=i;
-                            }
-                          }
-                          if(results[a].results.agreement=="0")
-                          {
-                            if (results[b].results != null)
-                            {
-                              if(results[b].results.photoUrl==undefined||results[b].results.photoUrl==""){
-                                Doctor.editDoctorDetail({userId:Storage.get("UID"),photoUrl:wechatData.headimgurl}).then(function(r){
+                            ]).then(function(){
+                              console.log(results)
+                              var a,b,c;
+                              for(var i in results)
+                              {
+                                if (results[i].results.agreement != undefined)
+                                {
+                                  a=i;
+                                }
+                                else if (results[i].results.userId != undefined)
+                                {   
+                                  b=i;
+                                }
+                                else
+                                {
+                                  c=i;
+                                }
+                              }
+                              if(results[a].results.agreement=="0")
+                              {
+                                if (results[b].results != null)
+                                {
+                                  if(results[b].results.photoUrl==undefined||results[b].results.photoUrl==""){
+                                    Doctor.editDoctorDetail({userId:Storage.get("UID"),photoUrl:wechatData.headimgurl}).then(function(r){
+                                      $state.go('tab.home');
+                                    })
+                                  }
+                                  else
+                                  {
+                                    $state.go('tab.home');
+                                  }
+                                }
+                                else
+                                {
                                   $state.go('tab.home');
-                                })
+                                }
                               }
                               else
                               {
-                                $state.go('tab.home');
+                                $state.go('agreement',{last:'signin'});
                               }
-                            }
-                            else
-                            {
-                              $state.go('tab.home');
-                            }
-                          }
-                          else
-                          {
-                            $state.go('agreement',{last:'signin'});
-                          }
-                        })
-                       
-                        
+                            })
+                        }
                     }
                     else
                     {
@@ -497,8 +512,14 @@ angular.module('kidney',[
       url:'/messagesDetail',
       templateUrl:'partials/others/VaryMessage.html',
       controller:'VaryMessageCtrl'
+    })    
+    //我的二维码(独立页面)
+    .state('myqrcode', {
+        cache:false,
+        url:'/myqrcode',
+        templateUrl:'partials/others/myqrcode.html',
+        controller:'QRcodeCtrl'
     })
-    
     
     //选项卡
     .state('tab', {
@@ -877,7 +898,7 @@ angular.module('kidney',[
             }
         }
     })
-            
+
     //我的信息
     .state('tab.myinfo', {
         // cache: false,
