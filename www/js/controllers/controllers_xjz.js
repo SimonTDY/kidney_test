@@ -1081,11 +1081,15 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         toBottom(true);
     }
     $scope.submitMsg = function() {
+        if($scope.params.newsType=='11') var targetRole='patient';
+        else var targetRole = 'doctor';
+        var actionUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxab9c316b3076535d&redirect_uri=http://proxy.haihonghospitalmanagement.com/go&response_type=code&scope=snsapi_userinfo&state='+targetRole +'_'+ $scope.params.newsType+ '_'+ $state.params.type+'_'+$scope.params.UID+'_'+$state.params.counselId+ '&#wechat_redirect';
         var template = {
             "userId": $scope.params.chatId, //患者的UID
             "role": "patient",
             "postdata": {
                 "template_id": "N_0kYsmxrQq-tfJhGUo746G8Uem6uHZgK138HIBKI2I",
+                "url":actionUrl, 
                 "data": {
                     "first": {
                         "value": "您的"+($scope.counseltype==1?'咨询':'问诊') +$scope.params.counsel.symptom+"已被回复！", //XXX取那个咨询或问诊的标题
@@ -1516,21 +1520,22 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                     $scope.photoUrls[sponsor.results.userId]=sponsor.results.photoUrl;
                 })
             });
-        } else if ($scope.params.type == '1') {
+        } else{
             getConsultation();
             $scope.params.newsType=$scope.params.teamId;
-            $scope.params.hidePanel = true;
+            // $scope.params.hidePanel = true;
             $scope.params.title = '病历';
             $scope.params.isDiscuss = true;
-        } else if ($scope.params.type == '2') {
-            getConsultation();
-            $scope.params.newsType=$scope.params.teamId;
-            $scope.params.hidePanel = false;
-            $scope.params.title = '病历';
-            $scope.params.isDiscuss = true;
-            $rootScope.patient.undergo = false;
-            $scope.params.isOver = true;
-        }
+        } 
+        // else if ($scope.params.type == '2') {
+        //     getConsultation();
+        //     $scope.params.newsType=$scope.params.teamId;
+            // $scope.params.hidePanel = false;
+            // $scope.params.title = '病历';
+            // $scope.params.isDiscuss = true;
+            // $rootScope.patient.undergo = false;
+            // $scope.params.isOver = true;
+        // }
     })
     $scope.$on('$ionicView.enter', function() {
             wechat.settingConfig({ url: path }).then(function(data) {
@@ -1610,14 +1615,29 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             $scope.params.title+= '-'+data.result.patientId.name;
             console.log(data)
             $rootScope.patient = data.result;
-            $scope.params.targetName = '['+data.result.patientId.name+']'+$scope.params.team.name;
-
-        });
-        Communication.getTeam({ teamId: $scope.params.teamId })
-        .then(function(data) {
-            for(i=0;i<data.results.members.length;i++){
-                $scope.photoUrls[data.results.members[i].userId]=data.results.members[i].photoUrl;
+            $scope.params.type = data.result.status;
+            if($scope.params.type==1){
+                // $scope.params.newsType=$scope.params.teamId;
+                $scope.params.hidePanel = true;
+                // $scope.params.title = '病历';
+                // $scope.params.isDiscuss = true;
+            }else{
+                // $scope.params.newsType=$scope.params.teamId;
+                $scope.params.hidePanel = false;
+                // $scope.params.title = '病历';
+                // $scope.params.isDiscuss = true;
+                $rootScope.patient.undergo = false;
+                $scope.params.isOver = true;
             }
+            // $scope.params.targetName = '['+data.result.patientId.name+']'+$scope.params.team.name;
+
+            Communication.getTeam({ teamId: $scope.params.teamId })
+            .then(function(data) {
+                $scope.params.targetName = '['+data.result.patientId.name+']'+$scope.params.team.name;
+                for(i=0;i<data.results.members.length;i++){
+                    $scope.photoUrls[data.results.members[i].userId]=data.results.members[i].photoUrl;
+                }
+            });
         });
     }
     $scope.DisplayMore = function() {
@@ -2247,11 +2267,13 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                     var csl = messageRes.msg.content.counsel;
                     socket.off('messageRes');
                     socket.emit('disconnect');
+                    var actionUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxab9c316b3076535d&redirect_uri=http://proxy.haihonghospitalmanagement.com/go&response_type=code&scope=snsapi_userinfo&state=doctor_12_2_'+Storage.get('UID')+'_doctor'+ '&#wechat_redirect';
                     var template = {
                         "userId": doc.userId, //医生的UID
                         "role": "doctor",
                         "postdata": {
                             "template_id": "cVLIgOb_JvtFGQUA2KvwAmbT5B3ZB79cRsAM4ZKKK0k",
+                            "url":actionUrl,
                             "data": {
                                 "first": {
                                     "value": thisDoctor.name+"向您转发了一个"+(csl.type==1?'咨询':'问诊')+"消息，请及时查看",

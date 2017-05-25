@@ -144,6 +144,13 @@ angular.module('kidney',[
                         {
                             $state.go('myqrcode')
                         }
+                        var params = state.split('_');
+                        if(params.length && params[0]=='doctor'){
+                            if(params[1]=='13')
+                                $state.go('tab.group-chat',{type:params[2],groupId:params[3],teamId:params[4]});
+                            else
+                                $state.go('tab.detail',{type:params[2],chatId:params[3],counselId:params[4]});
+                        }
                         else
                         {
                             $q.all([
