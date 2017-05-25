@@ -1498,7 +1498,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                         })
                     }
                 });
-                $scope.photoUrls[data.results.userId]=data.results.photoUrl;
+                // $scope.photoUrls[data.results.userId]=data.results.photoUrl;
             });
         if ($scope.params.type == '0') {
             $scope.params.newsType='13';
@@ -1511,6 +1511,10 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                 for(i=0;i<data.results.members.length;i++){
                     $scope.photoUrls[data.results.members[i].userId]=data.results.members[i].photoUrl;
                 }
+                Doctor.getDoctorInfo({userId:data.results.sponsorId})
+                .then(function(sponsor){
+                    $scope.photoUrls[sponsor.results.userId]=sponsor.results.photoUrl;
+                })
             });
         } else if ($scope.params.type == '1') {
             getConsultation();
@@ -1732,15 +1736,6 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         }
     }
 
-    // function onImageLoad(path) {
-    //     $scope.$apply(function() {
-    //         $scope.imageUrl = path;
-    //     })
-    // }
-
-    // function onImageLoadFail(err) {
-
-    // }
     $scope.$on('voice', function(event, args) {
         console.log(args)
         event.stopPropagation();
