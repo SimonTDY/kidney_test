@@ -30,6 +30,7 @@ angular.module('kidney',[
             {
                 var code = temp[1].split('&')[0]
                 var state = temp[2].split('#')[0]
+                var params = state.split('_');
                 Storage.set('code',code)
             }
             else
@@ -144,12 +145,11 @@ angular.module('kidney',[
                         {
                             $state.go('myqrcode')
                         }
-                        if (state = "testnewsufferer" || state == "newsufferer")
+                        else if (state = "testnewsufferer" || state == "newsufferer")
                         {
                             $state.go('tab.patient')
                         }
-                        var params = state.split('_');
-                        if(params.length && params[0]=='doctor'){
+                        else if(params.length && params[0]=='doctor'){
                             if(params[1]=='13')
                                 $state.go('tab.group-chat',{type:params[2],groupId:params[3],teamId:params[4]});
                             else
