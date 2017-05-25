@@ -140,9 +140,13 @@ angular.module('kidney',[
                         var results = []
                         var errs = []
                         
-                        if (state == "qrcode")
+                        if (state == "testqrcode" || state == "qrcode")
                         {
                             $state.go('myqrcode')
+                        }
+                        if (state = "testnewsufferer" || state == "newsufferer")
+                        {
+                            $state.go('tab.patient')
                         }
                         var params = state.split('_');
                         if(params.length && params[0]=='doctor'){
