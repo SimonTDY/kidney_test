@@ -520,15 +520,17 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                 console.log(err);
             })
         }
-        if ($scope.params.type == '2'){
+        if ($scope.params.type == '2') {
             $scope.params.title = "医生交流";
-            Doctor.getDoctorInfo({userId:$scope.params.chatId})
-            .then(function(data){
-                $scope.params.targetName = data.results.name;
-                $scope.photoUrls[data.results.userId]=data.results.photoUrl;
-            });
+            Doctor.getDoctorInfo({ userId: $scope.params.chatId })
+                .then(function(data) {
+                    $scope.params.targetName = data.results.name;
+                    $scope.photoUrls[data.results.userId] = data.results.photoUrl;
+                });
+        } else {
+            $scope.params.title = "咨询";
         }
-        $scope.params.title = "咨询";
+
 
         var loadWatcher = $scope.$watch('msgs.length',function(newv,oldv){
             if(newv) {
