@@ -1195,7 +1195,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             success: function (res) {
                 var ids=['',res.localId];
                 var m=msgGen(ids,'voice',true);
-                $scope.pushMsg(m);
+                //$scope.pushMsg(m);
                 toBottom(true);
                 $scope.params.recording=false;
                 wx.uploadVoice({
