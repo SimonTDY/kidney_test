@@ -90,8 +90,7 @@ angular.module('kidney',[
                         }
                         else
                         {
-                            var logPromise = User.logIn({username:Storage.get('openid'),password:Storage.get('openid'),role:"doctor"});
-                            logPromise.then(function(data){
+                            User.logIn({username:Storage.get('openid'),password:Storage.get('openid'),role:"doctor"}).then(function(data){
                                 console.log(data);
                                 if(data.results==1){
                                     if(data.mesg == "No authority!")
