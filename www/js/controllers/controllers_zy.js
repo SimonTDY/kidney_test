@@ -3105,7 +3105,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
 //意见反馈
 .controller('adviceCtrl', ['$scope','$state','$ionicLoading', 'Advice','Storage','$timeout', function ($scope,$state,$ionicLoading,Advice,Storage,$timeout) {
     $scope.deliverAdvice = function(advice){        
-        Advice.postAdvice({userId:Storage.get('UID'),role:"doctor",topic:advice.topic,content:advice.content}).then(
+        Advice.postAdvice({userId:Storage.get('UID'),role:"doctor",content:advice.content}).then(
             function(data){
                 if(data.result == "新建成功"){
                     $ionicLoading.show({
