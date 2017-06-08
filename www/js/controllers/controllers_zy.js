@@ -2088,7 +2088,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
                         "action_name": "QR_LIMIT_STR_SCENE", 
                         "action_info": {
                             "scene": {
-                                "scene_id": Storage.get('UID')
+                                "scene_str": Storage.get('UID')
                             }
                         }
                     }
