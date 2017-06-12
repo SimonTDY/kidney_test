@@ -67,25 +67,13 @@ angular.module('kidney',[
                             },function(err){
                                 temperr.push(err)
                             }),
-                            User.getMessageOpenId({type:1,userId:data.UserId}).then(function(res){
-                                tempresult.push(res)
+                            User.setMessageOpenId({type:1,userId:data.UserId,openId:wechatData.openid}).then(function(res){
+                                console.log("setopenid");
                             },function(err){
                                 temperr.push(err)
                             })
                             ]).then(function(){
-                                if (tempresult[0].results == undefined || tempresult[0].results == null)
-                                {
-                                  User.setMessageOpenId({type:1,userId:data.UserId,openId:wechatData.openid}).then(function(res){
-                                      console.log("setopenid");
-                                      $state.go('signin')
-                                  },function(){
-                                      console.log("连接超时！");
-                                  })
-                                }
-                                else
-                                {
-                                    $state.go('signin')
-                                }
+                                $state.go('signin')
                             })
                         }
                         else
