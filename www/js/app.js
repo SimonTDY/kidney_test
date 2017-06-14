@@ -158,7 +158,7 @@ angular.module('kidney',[
                                             errs.push(err)
                                         }),
                                         User.setMessageOpenId({type:1,userId:Storage.get("UID"),openId:Storage.get('messageopenid')}).then(function(res){
-                                            results.push(res)
+                                            // results.push(res)
                                         },function(err){
                                             errs.push(err)
                                         }),
@@ -169,20 +169,16 @@ angular.module('kidney',[
                                         })
                                         ]).then(function(){
                                           console.log(results)
-                                          var a,b,c;
+                                          var a,b;
                                           for(var i in results)
                                           {
                                             if (results[i].results.agreement != undefined)
                                             {
                                               a=i;
                                             }
-                                            else if (results[i].results.userId != undefined)
+                                            else 
                                             {   
                                               b=i;
-                                            }
-                                            else
-                                            {
-                                              c=i;
                                             }
                                           }
                                           if(results[a].results.agreement=="0")
