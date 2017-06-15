@@ -14,7 +14,8 @@ angular.module('kidney',[
     'kidney.directives',
     'monospaced.qrcode',
     'ionic-datepicker',
-    'kidney.icon_filter'
+    'kidney.icon_filter',
+    'angular-jwt'
 ])
 
 .run(['$ionicPlatform', '$state', 'Storage', 'JM','$ionicHistory','$rootScope','CONFIG','Communication', '$location','wechat','$window','User','Doctor','jmapi','$ionicPopup','$q',function($ionicPlatform, $state, Storage, JM,$ionicHistory,$rootScope,CONFIG,Communication,$location,wechat,$window,User,Doctor,jmapi,$ionicPopup,$q) {
@@ -47,7 +48,7 @@ angular.module('kidney',[
             wechat.getUserInfo({code:code}).then(function(data){ 
                 // alert(1)
                 wechatData = data.results
-                console.log(wechatData)
+                // console.log(wechatData)
                 // alert(wechatData.openid)
                 // alert(wechatData.nickname)
                 Storage.set('openid',wechatData.unionid)
@@ -347,6 +348,7 @@ angular.module('kidney',[
         });
     });
 }])
+
 
 // --------路由, url模式设置----------------
 .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
@@ -916,33 +918,6 @@ angular.module('kidney',[
     // $urlRouterProvider.otherwise('/signin');
 
 })
-.controller('tabCtrl',['$state','$scope',function($state,$scope){
-    $scope.goHome = function(){
-        setTimeout(function() {
-        $state.go('tab.home', {});
-      },20);
-    }    
-    $scope.goConsult = function(){
-        setTimeout(function() {
-        $state.go('tab.consult', {});
-      },20);
-    }
-    $scope.goGroups = function(){
-        setTimeout(function() {
-        $state.go('tab.groups', {type:'0'});
-      },20);
-    }
-    $scope.goPatient = function(){
-        setTimeout(function() {
-        $state.go('tab.patient', {});
-      },20);
-    }
-    $scope.goMe = function(){
-        setTimeout(function() {
-        $state.go('tab.me', {});
-      },20);
-    }
-}])
 
 // $httpProvider.interceptors提供http request及response的预处理
 .config(['$httpProvider', 'jwtOptionsProvider', function ($httpProvider, jwtOptionsProvider) {
@@ -974,7 +949,7 @@ angular.module('kidney',[
               // var d = new Date(0); // The 0 here is the key, which sets the date to the epoch
               // d.setUTCSeconds(temp.expireAfter);
               isExpired = !(temp.exp > new Date().valueOf());//(new Date().valueOf() - 8*3600*1000));
-              console.log(temp)
+              // console.log(temp)
             }
            
              // console.log(isExpired);
@@ -1049,3 +1024,31 @@ angular.module('kidney',[
 
   $httpProvider.interceptors.push('jwtInterceptor');
 }])
+.controller('tabCtrl',['$state','$scope',function($state,$scope){
+    $scope.goHome = function(){
+        setTimeout(function() {
+        $state.go('tab.home', {});
+      },20);
+    }    
+    $scope.goConsult = function(){
+        setTimeout(function() {
+        $state.go('tab.consult', {});
+      },20);
+    }
+    $scope.goGroups = function(){
+        setTimeout(function() {
+        $state.go('tab.groups', {type:'0'});
+      },20);
+    }
+    $scope.goPatient = function(){
+        setTimeout(function() {
+        $state.go('tab.patient', {});
+      },20);
+    }
+    $scope.goMe = function(){
+        setTimeout(function() {
+        $state.go('tab.me', {});
+      },20);
+    }
+}])
+

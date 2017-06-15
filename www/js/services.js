@@ -869,7 +869,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
             getUserIDbyOpenId:{method:'GET',skipAuthorization: true,params:{route: 'getUserIDbyOpenId'}, timeout: 100000},
             setOpenId:{method:'POST',skipAuthorization: true,params:{route: 'setOpenId'}, timeout: 100000},
             getMessageOpenId:{method:'GET',skipAuthorization: true,params:{route: 'getMessageOpenId'}, timeout: 100000},
-            setMessageOpenId:{method:'POST',skipAuthorization: trueparams:{route: 'setMessageOpenId'}, timeout: 100000}
+            setMessageOpenId:{method:'POST',skipAuthorization: true,params:{route: 'setMessageOpenId'}, timeout: 100000}
         });
     }
 
