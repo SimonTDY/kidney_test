@@ -158,7 +158,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
               Doctor.getDoctorInfo({userId:Storage.get("UID")}).then(function(res){
                 console.log(Storage.get("UID"))
                 // console.log(res.results)
-                console.log(res.results.photoUrl)
+                // console.log(res.results.photoUrl)
                 // console.log(angular.fromJson(res.results))
                 if(!(res.results && res.results.photoUrl)){
                   Doctor.editDoctorDetail({userId:Storage.get("UID"),photoUrl:Storage.get('wechathead')}).then(function(r){
