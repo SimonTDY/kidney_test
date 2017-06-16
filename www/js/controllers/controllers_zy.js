@@ -129,6 +129,28 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
         $state.go('phonevalid');   
     } 
     
+    $scope.bindwechat = function () {
+        $ionicPopup.show({   
+            title: '由于系统更新，如您已拥有手机账号，请重新进行验证并绑定微信账号。如果您是首次使用，请点击取消后进行注册！',
+            buttons: [
+            { 
+                text: '取消',
+                type: 'button',
+                onTap: function(e) {
+                    $state.go('signin')
+                }
+            },
+            {
+                text: '確定',
+                type: 'button-positive',
+                onTap: function(e) {
+                    Storage.set('validMode',0)
+                    $state.go('phonevalid',{phonevalidType:"wechat"})
+                }
+            },
+            ]
+        })
+    }
     User.getUserIDbyOpenId({openId:Storage.get('openid')}).then(function(data)
     {
         if (angular.isDefined(data.UserId) == true)
@@ -371,7 +393,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
                     {
                         $scope.logStatus="验证成功！";
                         Storage.set('phoneNumber',Verify.Phone);
-                        if (isregisted == true)
+                        if (isregisted)
                         {
                           User.setOpenId({phoneNo:Verify.Phone,openId:Storage.get('openid')}).then(function(data){
                               if(data.results == "success!")
@@ -382,7 +404,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
                                     console.log("连接超时！");
                                 })
                                 $ionicPopup.show({   
-                                     title: '微信账号绑定手机账号成功，您的初试密码是123456，是否重置密码？',
+                                     title: '微信账号绑定手机账号成功，是否重置密码？',
                                      buttons: [
                                        { 
                                             text: '取消',
