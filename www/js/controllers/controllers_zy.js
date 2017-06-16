@@ -1161,6 +1161,10 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
             }
         })
     }
+
+    $scope.$on('$destroy',function(){
+      $interval.cancel(RefreshUnread);
+    })
     // $scope.testRestful=function()
     // {
     //     Communication.removeMember({
