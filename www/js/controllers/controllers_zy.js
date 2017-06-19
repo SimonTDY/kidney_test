@@ -2,7 +2,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
 
 /////////////////////////////zhangying///////////////////////
 //登录
-.controller('SignInCtrl', ['User','$scope','$timeout','$state','Storage','loginFactory','$ionicHistory','jmapi', '$location','wechat','$window','$rootScope','Doctor','$sce',function(User,$scope, $timeout,$state,Storage,loginFactory,$ionicHistory,jmapi,$location,wechat,$window,$rootScope,Doctor,$sce) {
+.controller('SignInCtrl', ['User','$scope','$timeout','$state','Storage','loginFactory','$ionicHistory','jmapi', '$location','wechat','$window','$rootScope','Doctor','$sce', '$ionicPopup', function(User,$scope, $timeout,$state,Storage,loginFactory,$ionicHistory,jmapi,$location,wechat,$window,$rootScope,Doctor,$sce, $ionicPopup) {
     $scope.barwidth="width:0%";
     $scope.navigation_login=$sce.trustAsResourceUrl("http://proxy.haihonghospitalmanagement.com/member.php?mod=logging&action=logout&formhash=xxxxxx");
     if(Storage.get('USERNAME')!=null){
