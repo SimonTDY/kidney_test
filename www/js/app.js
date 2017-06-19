@@ -233,7 +233,10 @@ angular.module('kidney',[
                     // })
                     
                 }
-                
+                else
+                {
+                    $state.go('signin');
+                }
                 
             },function(err){
               console.log(err)
@@ -1051,4 +1054,3 @@ angular.module('kidney',[
       },20);
     }
 }])
-
