@@ -194,3 +194,7 @@ margin-bottom:10px!important; ;
 .right15{
   right: 15px
 }
+
+.popupWithKeyboard{
+  margin-top: -190px;
+}

@@ -851,7 +851,9 @@ angular.module('kidney.services', ['ionic','ngResource'])
             insertSuspendTime:{method:'POST',params:{route:'insertSuspendTime'},timeout:10000},
             deleteSuspendTime:{method:'POST',params:{route:'deleteSuspendTime'},timeout:10000},
             getPatientByDate:{method:'GET',params:{route:'getPatientByDate'},timeout:10000},
-            getDocNum:{method:'GET',params:{route:'getDocNum'},timeout:10000}
+            getDocNum:{method:'GET',params:{route:'getDocNum'},timeout:10000},
+            getAliPayAccount:{method:'GET', params:{route: 'getAliPayAccount'},timeout:10000},
+            editAliPayAccount:{method:'POST', params:{route: 'editAliPayAccount'},timeout:10000}
         });
     }
 
@@ -869,7 +871,8 @@ angular.module('kidney.services', ['ionic','ngResource'])
             getUserIDbyOpenId:{method:'GET',skipAuthorization: true,params:{route: 'getUserIDbyOpenId'}, timeout: 100000},
             setOpenId:{method:'POST',skipAuthorization: true,params:{route: 'setOpenId'}, timeout: 100000},
             getMessageOpenId:{method:'GET',skipAuthorization: true,params:{route: 'getMessageOpenId'}, timeout: 100000},
-            setMessageOpenId:{method:'POST',skipAuthorization: true,params:{route: 'setMessageOpenId'}, timeout: 100000}
+            setMessageOpenId:{method:'POST',skipAuthorization: true,params:{route: 'setMessageOpenId'}, timeout: 100000},
+            One:{method:'GET', params:{route: 'one'}, timeout: 10000}
         });
     }
 
@@ -1623,6 +1626,24 @@ angular.module('kidney.services', ['ionic','ngResource'])
         return deferred.promise;
     }
     
+    //params-> username:'doc01'
+    self.One = function(params)
+    {
+        var deferred = $q.defer();
+        Data.User.One(
+            params,
+            function(data, headers)
+            {
+                deferred.resolve(data);
+            },
+            function(err)
+            {
+                deferred.reject(err);
+            }
+        );
+        return deferred.promise;
+    }
+    
     return self;
 }])
 
@@ -2332,6 +2353,34 @@ angular.module('kidney.services', ['ionic','ngResource'])
             function(err){
                 deferred.reject(err);
         });
+        return deferred.promise;
+    };
+
+    //params->userId:'doc01'
+    self.getAliPayAccount = function(params){
+        var deferred = $q.defer();
+        Data.Doctor.getAliPayAccount(
+            params,
+            function(data, headers){
+                deferred.resolve(data);
+            },
+            function(err){
+                deferred.reject(err);
+        });
+        return deferred.promise;
+    };
+    //params->{userId:'doc01',aliPayAccount:'abc@def.com'}
+    self.editAliPayAccount = function(params){
+        var deferred = $q.defer();
+        Data.Doctor.editAliPayAccount(
+            params,
+            function(data, headers){
+                deferred.resolve(data);
+            },
+            function(err){
+                deferred.reject(err);
+            }
+        );
         return deferred.promise;
     };
 
