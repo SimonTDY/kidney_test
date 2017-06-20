@@ -117,7 +117,7 @@ angular.module('kidney',[
                                     // $scope.logStatus = "登录成功！";
                                     $ionicHistory.clearCache();
                                     $ionicHistory.clearHistory();
-                                    User.getUserId({openId:Storage.get('openid')}).then(function(data)
+                                    User.getUserId({username:Storage.get('openid')}).then(function(data)
                                     {
                                         if (angular.isDefined(data.phoneNo) == true)
                                         {
@@ -188,6 +188,8 @@ angular.module('kidney',[
                                             {
                                               if(results[b].results.photoUrl==undefined||results[b].results.photoUrl==""){
                                                 Doctor.editDoctorDetail({userId:Storage.get("UID"),photoUrl:wechatData.headimgurl}).then(function(r){
+                                                  $state.go('tab.home');
+                                                },function(err){
                                                   $state.go('tab.home');
                                                 })
                                               }
