@@ -361,6 +361,8 @@ angular.module('kidney',[
     // Set up the various states which the app can be in.
     // Each state's controller can be found in controllers.js
 
+    //ios 白屏可能问题配置  禁用侧滑后退？
+    $ionicConfigProvider.views.swipeBackEnabled(false);
     //android导航栏在顶部解决办法
     $ionicConfigProvider.platform.android.tabs.style('standard');
     $ionicConfigProvider.platform.android.tabs.position('standard');
@@ -403,6 +405,7 @@ angular.module('kidney',[
     .state('uploadcertificate',{
       cache:false,
       url:'/uploadcertificate',
+      params:{last:null},
       templateUrl:'partials/others/uploadcertificate.html',
       controller:'uploadcertificateCtrl'
     })

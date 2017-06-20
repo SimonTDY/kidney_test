@@ -151,7 +151,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
             ]
         })
     }
-    User.getUserId({openId:Storage.get('openid')}).then(function(data)
+    User.getUserId({username:Storage.get('openid')}).then(function(data)
     {
         if (angular.isDefined(data.UserId) == true)
         {
@@ -226,13 +226,13 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
             Storage.set('RegisterNO',$scope.Verify.Phone)
             //验证手机号是否注册，没有注册的手机号不允许重置密码
             User.getUserId({
-                phoneNo:Verify.Phone
+                username:Verify.Phone
             })
             .then(function(succ)
             {
                 console.log(succ)
                 if($stateParams.phonevalidType=='wechat'){
-                    User.getUserId({phoneNo:Verify.Phone}).then(function(data){
+                    User.getUserId({username:Verify.Phone}).then(function(data){
                         if(data.results == 0){
                             tempuserId = data.UserId
                             if(data.roles.indexOf('doctor') == -1){
@@ -756,7 +756,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
         "certificatePhotoUrl":null,
         "practisingPhotoUrl":null
     }
-    User.getUserId({phoneNo:Storage.get('RegisterNO')}).then(function(data){
+    User.getUserId({username:Storage.get('RegisterNO')}).then(function(data){
         if(data.mesg=="Get UserId Success!"&&data.roles.indexOf('doctor') != -1){
             $scope.doctor.userId=data.UserId
         }
@@ -1002,6 +1002,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
     var windowHeight=$(window).height();
     console.log(Storage.get('USERNAME'));    
     $scope.hasUnreadMessages = false;
+    $scope.forumPermission=false;
     var RefreshUnread;
     var GetUnread = function(){
         New.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0}).then(//
@@ -1069,7 +1070,11 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
     .then(
         function(data)
         {
-            console.log(data)
+            // console.log(data)
+            if(data.hasOwnProperty("results")&&data.results.hasOwnProperty("name")&&data.results.name!="")
+            {
+                $scope.forumPermission=true;
+            }    
             $scope.navigation_login=$sce.trustAsResourceUrl("http://proxy.haihonghospitalmanagement.com/member.php?mod=logging&action=login&loginsubmit=yes&loginhash=$loginhash&mobile=2&username="+data.results.name+Storage.get('USERNAME').slice(7)+"&password="+data.results.name+Storage.get('USERNAME').slice(7));
             $scope.navigation=$sce.trustAsResourceUrl("http://proxy.haihonghospitalmanagement.com/");
         },
@@ -1162,7 +1167,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
         })
     }
 
-    $scope.$on('$destroy',function(){
+    $scope.$on('$ionicView.leave',function(){
       $interval.cancel(RefreshUnread);
     })
     // $scope.testRestful=function()
@@ -1231,11 +1236,11 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
             }
         )        
     }
-    $scope.doRefresh = function(){
-        load();
-        // Stop the ion-refresher from spinning
-        $scope.$broadcast('scroll.refreshComplete');
-    }    
+    // $scope.doRefresh = function(){
+    //     load();
+    //     // Stop the ion-refresher from spinning
+    //     $scope.$broadcast('scroll.refreshComplete');
+    // }    
     // $scope.$on('$ionicView.beforeEnter', function() {
     //     $scope.params.isPatients = '1';
     // })
@@ -2874,6 +2879,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
     //Storage.rm('USERNAME');
     Storage.rm('PASSWORD');
     Storage.rm('userid');
+    Storage.clear();
     $scope.navigation_login=$sce.trustAsResourceUrl("http://proxy.haihonghospitalmanagement.com/member.php?mod=logging&action=logout&formhash=xxxxxx");
     console.log($state);
     $timeout(function(){$state.go('signin');},500);
