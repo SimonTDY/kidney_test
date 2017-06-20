@@ -151,7 +151,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
             ]
         })
     }
-    User.getUserIDbyOpenId({openId:Storage.get('openid')}).then(function(data)
+    User.getUserId({openId:Storage.get('openid')}).then(function(data)
     {
         if (angular.isDefined(data.UserId) == true)
         {

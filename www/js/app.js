@@ -117,7 +117,7 @@ angular.module('kidney',[
                                     // $scope.logStatus = "登录成功！";
                                     $ionicHistory.clearCache();
                                     $ionicHistory.clearHistory();
-                                    User.getUserIDbyOpenId({openId:Storage.get('openid')}).then(function(data)
+                                    User.getUserId({openId:Storage.get('openid')}).then(function(data)
                                     {
                                         if (angular.isDefined(data.phoneNo) == true)
                                         {
