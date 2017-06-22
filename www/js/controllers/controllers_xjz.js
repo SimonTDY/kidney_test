@@ -15,8 +15,6 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
     });
 
      $scope.confirm = function(){
-        console.log($rootScope.newMember);
-       // return;
         if($scope.team.name=='' || $scope.team.description==''){
             $ionicLoading.show({ template: '请完整填写信息', duration: 1500 });
         }else if(!$scope.members){
@@ -37,15 +35,11 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                 Communication.newTeam($scope.team)
                     .then(function(data) {
                         //add members
-                        Communication.insertMember({ teamId: $scope.team.teamId, members: $rootScope.newMember })
-                            .then(function(data) {
-                                console.log(data)
-                            }, function(err) {
-                                console.log(err);
-                            });
+                        Communication.insertMember({ teamId: $scope.team.teamId, members: $rootScope.newMember });
 
-                        $ionicLoading.show({ template: '创建成功', duration: 1500 });
+                        $ionicLoading.show({ template: '创建成功'});
                         setTimeout(function() {
+                            $ionicLoading.hide();
                             $state.go('tab.groups', { type: '0' });
                         }, 1500);
                     }, function(err) {
@@ -65,33 +59,25 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
 .controller('GroupsSearchCtrl', ['$scope', '$state','Communication', 'wechat','Storage','$location',function($scope, $state,Communication,wechat,Storage,$location) {
     $scope.search='';
     $scope.noteam=0;
-  $scope.Searchgroup=function(){
-    console.log($scope.search)
-     Communication.getTeam({teamId:$scope.search})
-                .then(function(data){
-                  console.log(data)
-                  $scope.teamresult=data;
-                  if(data.length==0){
-                    $ionicLoading.show({ template: '查无此群', duration: 1000 })}
-                },function(err){
-                    console.log(err);
-                })
-  }
-    // $scope.clearSearch=function(){
-    //     $scope.search='';
-    //  }
+    $scope.Searchgroup = function () {
+        Communication.getTeam({ teamId: $scope.search })
+            .then(function (data) {
+                $scope.teamresult = data;
+                if (data.length == 0) {
+                    $ionicLoading.show({ template: '查无此群', duration: 1000 })
+                }
+            }, function (err) {
+                console.log(err);
+            })
+    }
+
 
      $scope.QRscan = function(){
-        // alert(1)
         var config = "";
         var path = $location.absUrl().split('#')[0]
         wechat.settingConfig({url:path}).then(function(data){
-          // alert(data.results.timestamp)
           config = data.results;
           config.jsApiList = ['scanQRCode']
-          // alert(config.jsApiList)
-          // alert(config.debug)
-          console.log(angular.toJson(config))
           wx.config({
             debug:false,
             appId:config.appId,
@@ -137,11 +123,9 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
     $scope.doctors = [];
     $scope.alldoctors = [];
     $scope.skipnum = 0;
-    $scope.loadMore = function() {
-        // $scope.$apply(function() {
+    $scope.loadMore = function () {
         Patient.getDoctorLists({ skip: $scope.skipnum, limit: 10 })
-            .then(function(data) {
-                console.log(data.results)
+            .then(function (data) {
                 $scope.$broadcast('scroll.infiniteScrollComplete');
 
                 $scope.alldoctors = $scope.alldoctors.concat(data.results);
@@ -150,10 +134,9 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                 var skiploc = data.nexturl.indexOf('skip');
                 $scope.skipnum = data.nexturl.substring(skiploc + 5);
                 if (data.results.length == 0) { $scope.moredata = false } else { $scope.moredata = true };
-            }, function(err) {
+            }, function (err) {
                 console.log(err);
             })
-            // });
     }
     $scope.goSearch = function() {
         $scope.isnotsearching = true;
@@ -161,10 +144,8 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         $scope.moredata = false;
         Patient.getDoctorLists({ skip: 0, limit: 10, name: $scope.search.name })
             .then(function(data) {
-                console.log(data.results)
                 $scope.doctors = data.results;
                 if (data.results.length == 0) {
-                    console.log("aaa")
                     $ionicLoading.show({ template: '查无此人', duration: 1000 })
                 }
             }, function(err) {
@@ -176,13 +157,9 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         $scope.isnotsearching = false;
         $scope.moredata = true;
         $scope.doctors = $scope.alldoctors;
-        // $scope.search.name = '';
     }
-    // $scope.clearSearch = function() {
-    //     $scope.search.name = '';
-    // }
+
     $scope.doctorClick = function(doc) {
-        console.log(doc)
         $state.go('tab.detail', { type: '2', chatId:doc });
     }
 }])
@@ -202,7 +179,6 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         Doctor.getDocNum()
         .then(function(data)
         {
-            console.log(data)
             $scope.countAllDoc=data.results;
         },function(err)
         {
@@ -225,7 +201,6 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             $scope.params.updateTime = time;
             Doctor.getMyGroupList({ userId: Storage.get('UID') })
                 .then(function(data) {
-                    console.log(data);
                     return New.addNews('13',Storage.get('UID'),data,'teamId')
                     .then(function(teams){
                         return $scope.teams=teams;
@@ -236,7 +211,6 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             $interval(function(){
                 Doctor.getRecentDoctorList({ userId: Storage.get('UID') })
                     .then(function(data) {
-                        console.log(data);
                         New.addNestNews('12',Storage.get('UID'),data.results,'userId','doctorId')
                         .then(function(doctors){
                             $scope.doctors=doctors;
@@ -325,13 +299,11 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         $scope.grouppatients1 = "";
         $scope.grouppatients2 = "";
         $scope.params.teamId = $state.params.teamId;
-        console.log($scope.params);
         $scope.load();
     });
     $scope.load = function() {
-        Doctor.getGroupPatientList({ teamId: $scope.params.teamId, status: 1 }) //0->进行中
+        Doctor.getGroupPatientList({ teamId: $scope.params.teamId, status: 1 }) //1->进行中
             .then(function(data) {
-                console.log(data)
                 New.addNews($scope.params.teamId,Storage.get('UID'),data.results,'consultationId')
                 .then(function(pats){
                     $scope.grouppatients0 = pats;
@@ -341,16 +313,14 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             }, function(err) {
                 console.log(err)
             })
-        Doctor.getGroupPatientList({ teamId: $scope.params.teamId, status: 0 }) //1->已处理
+        Doctor.getGroupPatientList({ teamId: $scope.params.teamId, status: 0 }) //0->已处理
             .then(function(data) {
-                console.log(data);
                 New.addNews($scope.params.teamId,Storage.get('UID'),data.results,'consultationId')
                 .then(function(pats){
                     $scope.grouppatients1 = pats;
                 },function(err){
 
                 });
-                // $scope.grouppatients1 = data.results;
             }, function(err) {
                 console.log(err)
             })
@@ -373,63 +343,45 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
     }
 }])
 
-.controller('GroupAddCtrl', ['$scope', '$state','$ionicHistory','Communication','$ionicPopup', 'Storage','Doctor','$ionicLoading','CONFIG','jmapi','$http',function($scope, $state,$ionicHistory,Communication,$ionicPopup,Storage,Doctor,$ionicLoading,CONFIG,jmapi,$http) {
-  $scope.$on('$ionicView.beforeEnter',function(){
-          $scope.me=[{userId:'',name:'',photoUrl:''}];
-         Communication.getTeam({teamId:$state.params.teamId})
-                .then(function(data){
-                  console.log(data)
-                  $scope.group=data.results;
-                 if(data.results.sponsorId==Storage.get('UID'))$scope.imnotin=false;
-                 else $scope.imnotin=true;
-                },function(err){
-                    console.log(err);
-                })
-
-
+.controller('GroupAddCtrl', ['$scope', '$state','$ionicHistory','Communication','$ionicPopup', 'Storage','Doctor','$ionicLoading','CONFIG','$http',function($scope, $state,$ionicHistory,Communication,$ionicPopup,Storage,Doctor,$ionicLoading,CONFIG,$http) {
+    $scope.$on('$ionicView.beforeEnter',function(){
+        $scope.me = [{ userId: '', name: '', photoUrl: '' }];
+        Communication.getTeam({ teamId: $state.params.teamId })
+            .then(function (data) {
+                $scope.group = data.results;
+                if (data.results.sponsorId == Storage.get('UID')) $scope.imnotin = false;
+                else $scope.imnotin = true;
+            }, function (err) {
+                console.log(err);
+            })
     })
-    $scope.request =function(){
-        // $http.get('http://121.43.107.106:8052/uploads/photos/Emotions.mp3').then(function(data){
-        //      var audio = new Audio('http://121.43.107.106:8052/uploads/photos/Emotions.mp3');
-        //     audio.play();  
-        //     })
-
-         
-         var confirmPopup = $ionicPopup.confirm({
+    $scope.request = function () {
+        var confirmPopup = $ionicPopup.confirm({
             title: '确定要加入吗?',
-            // template: '确定要结束此次咨询吗?'
-            okText:'确定',
-            cancelText:'取消'
+            // template: ''
+            okText: '确定',
+            cancelText: '取消'
         });
-        confirmPopup.then(function(res) {
+        confirmPopup.then(function (res) {
             if (res) {
-                console.log('You are sure');
-                 Doctor.getDoctorInfo({userId:Storage.get('UID')})
-        .then(function(data){
-            $scope.me[0].userId=data.results.userId;
-            $scope.me[0].name=data.results.name;
-            $scope.me[0].photoUrl=data.results.photoUrl;
-            var idStr=$scope.me[0].userId;
-                Communication.insertMember({teamId:$state.params.teamId,members:$scope.me})
-                    .then(function(data){
-                        console.log(data)
-                        console.log($scope.me[0].userId)
+                Doctor.getDoctorInfo({ userId: Storage.get('UID') })
+                    .then(function (data) {
+                        $scope.me[0].userId = data.results.userId;
+                        $scope.me[0].name = data.results.name;
+                        $scope.me[0].photoUrl = data.results.photoUrl;
+                        var idStr = $scope.me[0].userId;
+                        Communication.insertMember({ teamId: $state.params.teamId, members: $scope.me })
+                            .then(function (data) {
+                                if (data.result == "更新成员成功") {
+                                    $ionicLoading.show({ template: '加入成功', duration: 1500 });
+                                    $ionicHistory.nextViewOptions({ disableBack: true });
+                                    $state.go('tab.groups', { type: '0' });
+                                }
+                                else { $ionicLoading.show({ template: '你已经是成员了', duration: 1500 }) };
+                            })
 
-                        if(data.result=="更新成员成功"){
-                            jmapi.groupsMembers($state.params.teamId,[$scope.me],[]);
-                            $ionicLoading.show({ template: '加入成功', duration: 1500 });
-                            $ionicHistory.nextViewOptions({disableBack: true});
-                            $state.go('tab.groups',{type:'0'});
-                        }
-                        else {$ionicLoading.show({ template: '你已经是成员了', duration: 1500 })};
-                    })
+                    });
 
-        });
-
-            } else {
-                // var audio = new Audio('http://121.43.107.106:8052/uploads/photos/Emotions-small.mp3');
-                //  audio.play(); 
-                console.log('You are not sure');
             }
         });
     }
@@ -940,7 +892,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             msg.diff = true;
         } else if (msg.hasOwnProperty('time')) {
             var m = $scope.msgs[pos - 1];
-            if (m.contentType == 'custom' && m.content.type == 'count-notice') {
+            if (m.contentType == 'custom' && m.content.type == 'count-notice' && pos>1) {
                 m = $scope.msgs[pos - 2];
             }
             if (m.hasOwnProperty('time')) {
@@ -1232,32 +1184,25 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
 }])
 //团队信息
 .controller('GroupDetailCtrl', ['$scope', '$state', '$ionicModal', 'Communication','$ionicPopup','Storage','Doctor','$ionicHistory',function($scope, $state, $ionicModal,Communication,$ionicPopup,Storage,Doctor,$ionicHistory) {
-    $scope.$on('$ionicView.beforeEnter',function(){
+    $scope.$on('$ionicView.beforeEnter', function () {
 
-         Communication.getTeam({teamId:$state.params.teamId})
-                .then(function(data){
+        Communication.getTeam({ teamId: $state.params.teamId })
+            .then(function (data) {
 
-                  $scope.team=data.results;
-                  $scope.members2=data.results.members;
-                  // var bv = $ionicHistory.backView();
-                  // bv.title=$scope.team.name + '(' + $scope.team.number + ')))))))';
-                  // // bv.title=$scope.team.name + '(' + $scope.team.number + ')';
-                  // $ionicHistory.backView(bv);
-                  // console.log($ionicHistory.backView());
-            Doctor.getDoctorInfo({userId:$scope.team.sponsorId})
-            .then(function(data){
-                console.log(data);
-                 $scope.members=$scope.members2.concat(data.results);
-            });
-                  if($scope.team.sponsorId==Storage.get('UID')) $scope.ismyteam=true;
-                  else $scope.ismyteam=false;
-                },function(err){
-                    console.log(err);
-                })
+                $scope.team = data.results;
+                $scope.members2 = data.results.members;
+                Doctor.getDoctorInfo({ userId: $scope.team.sponsorId })
+                    .then(function (data) {
+                        $scope.members = $scope.members2.concat(data.results);
+                    });
+                if ($scope.team.sponsorId == Storage.get('UID')) $scope.ismyteam = true;
+                else $scope.ismyteam = false;
+            }, function (err) {
+                console.log(err);
+            })
     })
 
     $scope.addMember = function() {
-        console.log($scope.team.teamId)
         $state.go('tab.group-add-member', {teamId:$scope.team.teamId});
     }
     $scope.viewProfile = function(member){
@@ -1267,7 +1212,6 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         $state.go('tab.group-qrcode', { team: $scope.team });
     }
     $scope.closeModal = function() {
-        // $scope.imageHandle.zoomTo(1,true);
         $scope.modal.hide();
         $scope.modal.remove()
     };
@@ -1275,42 +1219,17 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
           $state.go('tab.group-kick', { teamId: $scope.team.teamId });
 
     }
-    // $scope.leaveteam=function(){
-    //        var confirmPopup = $ionicPopup.confirm({
-    //         title: '确定要退出团队吗?',
-    //         // template: '确定要结束此次咨询吗?'
-    //         okText: '确定',
-    //         cancelText: '取消'
-    //     });
-    //     confirmPopup.then(function(res) {
-    //         if (res) {
-    //             console.log('You are sure');
-    //             console.log($state.params.teamId);
-    //             console.log(Storage.get('UID'));
-    //             Communication.removeMember({teamId:$state.params.teamId,membersuserId:Storage.get('UID')})
-    //             .then(function(data){
-    //               console.log(data)
-    //             },function(err){
-    //                 console.log(err)
-    //             })
-    //         } else {
-    //             console.log('You are not sure');
-    //         }
-    //     });
-
-    // }
 }])
 //踢人
 .controller('GroupKickCtrl', ['$scope', '$state','$ionicModal', 'Communication','$ionicPopup','Storage','CONFIG', function($scope, $state,$ionicModal,Communication,$ionicPopup,Storage,CONFIG) {
-    $scope.$on('$ionicView.beforeEnter',function(){
+    $scope.$on('$ionicView.beforeEnter', function () {
 
-         Communication.getTeam({teamId:$state.params.teamId})
-                .then(function(data){
-                  console.log(data)
-                  $scope.doctors=data.results.members;
-                },function(err){
-                    console.log(err);
-                })
+        Communication.getTeam({ teamId: $state.params.teamId })
+            .then(function (data) {
+                $scope.doctors = data.results.members;
+            }, function (err) {
+                console.log(err);
+            })
     })
     $scope.kick = function(id) {
         var confirmPopup = $ionicPopup.confirm({
@@ -1322,12 +1241,10 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             if (res) {
                 Communication.removeMember({ teamId: $state.params.teamId, membersuserId: $scope.doctors[id].userId })
                     .then(function(data) {
-                        console.log(data)
                         if (data.result == "更新成员成功") {
                             var idarr = [$scope.doctors[id].userId];
                             Communication.getTeam({ teamId: $state.params.teamId })
                                 .then(function(data) {
-                                    console.log(data)
                                     $scope.doctors = data.results.members;
                                 }, function(err) {
                                     console.log(err);
@@ -1371,7 +1288,6 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
     $scope.loadMore = function() {
         Patient.getDoctorLists({ skip: $scope.skipnum, limit: 10 })
             .then(function(data) {
-                console.log(data.results)
                 $scope.$broadcast('scroll.infiniteScrollComplete');
 
                 $scope.alldoctors = $scope.alldoctors.concat(data.results);
@@ -1387,15 +1303,11 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
     $scope.goSearch = function() {
         $scope.isnotsearching = true;
         $scope.issearching = false;
-
-
         $scope.moredata = false;
         Patient.getDoctorLists({ skip: 0, limit: 10, name: $scope.search.name })
             .then(function(data) {
-                console.log(data.results)
                 $scope.doctors = data.results;
                 if (data.results.length == 0) {
-                    console.log("aaa")
                     $ionicLoading.show({ template: '查无此人', duration: 1000 })
                 }
             }, function(err) {
@@ -1471,15 +1383,6 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         $scope.params.teamId = $state.params.teamId;
         $scope.params.loaded = false;
 
-        // var loadWatcher = $scope.$watch('msgs.length',function(newv,oldv){
-        //     if(newv) {
-        //         loadWatcher();
-        //         var lastMsg=$scope.msgs[$scope.msgs.length-1];
-        //         if(lastMsg.fromID==$scope.params.UID) return;
-        //         return New.insertNews({userId:$scope.params.UID,sendBy:lastMsg.targetID,type:$scope.params.newsType,readOrNot:1});
-        //     }
-        // });
-        
         if ($scope.params.type == '0') {
             $scope.params.newsType='13';
             Communication.getTeam({ teamId: $scope.params.teamId })
@@ -2117,8 +2020,6 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         $ionicScrollDelegate.scrollTop();
         $scope.params.query='';
         $scope.params.isSearch=false;
-        console.log($scope.params.moredata);
-        console.log($scope.params.isSearch);
     })
 
     $scope.listenenter = function(){
@@ -2127,7 +2028,6 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
     $scope.loadMore = function() {
         Patient.getDoctorLists({ skip: $scope.params.skip, limit: $scope.params.limit })
             .then(function(data) {
-                console.log(data.results)
                 $scope.$broadcast('scroll.infiniteScrollComplete');
                 allDoctors = $scope.doctors.concat(data.results);
                 $scope.doctors = allDoctors;
@@ -2139,11 +2039,6 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             })
     }
 
-    // $scope.clearSearch = function(){
-    //     $scope.params.query='';
-    //     console.log('clearSearch');
-
-    // }
     $scope.$watch('params.query',function(val,val1){
         if($scope.params.query==''){
             $scope.doctors=allDoctors;
@@ -2185,13 +2080,6 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                 var msgdata = $state.params.msg;
                 msgdata.fromId = thisDoctor.userId;
                 msgdata.targetId = doc.userId;
-                // window.JMessage.sendGroupTextMessageWithExtras(doc.userId,'[咨询转发]',msgdata,'',
-                //     function(m){
-                //         console.log(m);
-                //         setTimeout(function() { $state.go('tab.detail', { type: '2', chatId: doc.userId }); }, 200);
-                //     },function(err){
-                //         console.error(err);
-                //     });
                 var msgJson={
                     clientType:'wechatdoctor',
                     contentType:'custom',
@@ -2256,27 +2144,14 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                     $state.go('tab.detail', { type: '2', chatId: doc.userId,counselId:msgdata.counselId});
                 })
 
-                // JM.sendCustom('single', doc.userId, '', msgdata)
-                //     .then(function(data) {
-                //         console.log(data)
-                //         setTimeout(function() { $state.go('tab.detail', { type: '2', chatId: doc.userId }); }, 200);
-                //     }, function(err) {
-                //         console.info('转发失败');
-                //         console.log(err);
-                //     })
-            } else {
             }
         });
     }
 }])
-.controller('selectTeamCtrl', ['$state', '$scope', 'jmapi', '$ionicPopup', 'Doctor', 'Communication', 'Storage','CONFIG','$filter', function($state, $scope, jmapi, $ionicPopup, Doctor, Communication, Storage,CONFIG,$filter) {
-    $scope.params={
-        // isSearch:false,
-    }
+.controller('selectTeamCtrl', ['$state', '$scope', '$ionicPopup', 'Doctor', 'Communication', 'Storage','CONFIG','$filter', function($state, $scope, $ionicPopup, Doctor, Communication, Storage,CONFIG,$filter) {
     $scope.query={
         name:'',
     }
-    console.log($state.params);
     Doctor.getMyGroupList({ userId: Storage.get('UID') })
         .then(function(data) {
             $scope.teams = data;
@@ -2287,7 +2162,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
     $scope.sendTo = function(team) {
             var confirmPopup = $ionicPopup.confirm({
                 title: '转发给：' + team.name,
-                // template: '确定要结束此次咨询吗?'
+                // template: ''
                 okText: '确定',
                 cancelText: '取消'
             });
@@ -2330,7 +2205,6 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
 
                     Communication.newConsultation(d)
                     .then(function(data){
-                        console.log(data);
                         socket.emit('newUser',{user_name:thisDoctor.name,user_id:thisDoctor.userId,client:'wechatdoctor'});
                         socket.emit('message',{msg:msgJson,to:team.teamId,role:'doctor'});
                         socket.on('messageRes',function(messageRes){
@@ -2346,61 +2220,6 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             });
         }
 }])
-.controller('consultDetailCtrl', ['$state', '$scope', '$ionicModal', '$ionicScrollDelegate', function($state, $scope, $ionicModal, $ionicScrollDelegate) {
-    $scope.consult = {
-        name: '李大山',
-        age: '56',
-        gender: '男',
-        time: '4/11/17 8:57',
-        discription: '现在口服药有，早上拜新同两片，中午47.5mg的倍他乐克一片',
-
-    }
-    $scope.content = {
-            pics: [
-                'img/avatar.png',
-                'img/max.png',
-                'img/ionic.png'
-            ]
-        }
-        //view image
-    $scope.zoomMin = 1;
-    $scope.imageUrl = '';
-    $ionicModal.fromTemplateUrl('templates/msg/imageViewer.html', {
-        scope: $scope
-    }).then(function(modal) {
-        $scope.modal = modal;
-        // $scope.modal.show();
-        $scope.imageHandle = $ionicScrollDelegate.$getByHandle('imgScrollHandle');
-    });
-    $scope.showModal = function(templateUrl) {
-        $ionicModal.fromTemplateUrl(templateUrl, {
-            scope: $scope
-        }).then(function(modal) {
-            $scope.modal = modal;
-            $scope.modal.show();
-            $scope.imageHandle = $ionicScrollDelegate.$getByHandle('imgScrollHandle');
-        });
-    }
-    $scope.closeModal = function() {
-        $scope.imageHandle.zoomTo(1, true);
-        $scope.modal.hide();
-        // $scope.modal.remove()
-    };
-    $scope.switchZoomLevel = function() {
-        if ($scope.imageHandle.getScrollPosition().zoom != $scope.zoomMin)
-            $scope.imageHandle.zoomTo(1, true);
-        else {
-            $scope.imageHandle.zoomTo(5, true);
-        }
-    }
-    $scope.viewPic = function(url) {
-        $scope.imageUrl = url;
-        $scope.modal.show();
-    }
-    $scope.$on('$ionicView.leave', function() {
-        if ($scope.modal) $scope.modal.remove();
-    })
-}])
 .controller('doctorProfileCtrl',['$scope','$state','Doctor','Storage','$ionicHistory',function($scope,$state,Doctor,Storage,$ionicHistory){
     $scope.goBack = function(){
         $ionicHistory.goBack();
@@ -2409,29 +2228,15 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
     $scope.goChat = function(){
         $state.go('tab.detail',{type:'2',chatId:$state.params.memberId});
     }
-    $scope.$on('$ionicView.beforeEnter',function(){
-        console.log($state.params.memberId)
-        if($state.params.memberId==Storage.get('UID'))$scope.isme=true;
-        else $scope.isme=false;
-        // if($scope.doctor.userId!=$state.params.member.userId){
-        //     $scope.doctor=$state.params.member;
+    $scope.$on('$ionicView.beforeEnter', function () {
+        if ($state.params.memberId == Storage.get('UID')) $scope.isme = true;
+        else $scope.isme = false;
 
-            Doctor.getDoctorInfo({userId:$state.params.memberId})
-            .then(function(data){
-                console.log(data);
-                $scope.doctor=data.results;
+        Doctor.getDoctorInfo({ userId: $state.params.memberId })
+            .then(function (data) {
+                $scope.doctor = data.results;
             });
-        // }
     })
-    // $scope.teams=[
-    //       {
-    //           photoUrl:"img/avatar.png",
-    //           groupId:"D201703240001",
-    //           name:"浙一肾病管理团队",
-    //           workUnit:"浙江XXX医院",
-    //           major:"肾上腺分泌失调",
-    //           num:31
-    //       }];
 }])
 .controller('viewChatCtrl',['$scope', '$state', '$ionicModal', '$ionicScrollDelegate', '$ionicHistory', 'voice', 'CONFIG', 'Communication','Doctor','Patient','$q','Storage',function($scope, $state, $ionicModal, $ionicScrollDelegate, $ionicHistory, voice, CONFIG, Communication,Doctor,Patient,$q,Storage){
 
@@ -2441,7 +2246,8 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         moreMsgs: true,
         chatId:'',
         doctorId: '',
-        counsel: {}
+        counsel: {},
+        patientName:''
     }
 
     $scope.scrollHandle = $ionicScrollDelegate.$getByHandle('myContentScroll');
@@ -2459,11 +2265,10 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         $scope.params.doctorId = $state.params.doctorId;
         Storage.set('chatSender',$scope.params.doctorId);
         $scope.params.msgCount = 0;
-        console.log($scope.params)
         //获取counsel信息
         Patient.getPatientDetail({ userId: $scope.params.chatId })
             .then(function (data) {
-                $scope.params.targetName = data.results.name;
+                if(data.results.name) $scope.params.patientName = '-'+data.results.name;
                 $scope.photoUrls[data.results.userId] = data.results.photoUrl;
             });
         Doctor.getDoctorInfo({ userId: $scope.params.doctorId })
@@ -2506,7 +2311,6 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             }
             Communication.getCommunication(q)
             .then(function(data){
-                console.log(data);
                 var d=data.results;
                 $scope.$broadcast('scroll.refreshComplete');
                 if(d=='没有更多了!') return noMore();
@@ -2530,7 +2334,6 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                         $scope.msgs.unshift(res[i]);
                     // });
                 }
-                console.log($scope.msgs);
                 resolve($scope.msgs);
             },function(err){
                 $scope.$broadcast('scroll.refreshComplete');
@@ -2574,7 +2377,6 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
     }
 
     $scope.$on('image', function(event, args) {
-        console.log(args)
         event.stopPropagation();
         $scope.imageHandle.zoomTo(1, true);
         $scope.imageUrl = args[2].localPath || (CONFIG.mediaUrl + (args[2].src|| args[2].src_thumb));
