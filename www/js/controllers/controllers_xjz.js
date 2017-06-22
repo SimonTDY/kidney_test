@@ -940,7 +940,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             msg.diff = true;
         } else if (msg.hasOwnProperty('time')) {
             var m = $scope.msgs[pos - 1];
-            if (m.contentType == 'custom' && m.content.type == 'count-notice') {
+            if (m.contentType == 'custom' && m.content.type == 'count-notice' && pos>1) {
                 m = $scope.msgs[pos - 2];
             }
             if (m.hasOwnProperty('time')) {
@@ -2441,7 +2441,8 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         moreMsgs: true,
         chatId:'',
         doctorId: '',
-        counsel: {}
+        counsel: {},
+        patientName:''
     }
 
     $scope.scrollHandle = $ionicScrollDelegate.$getByHandle('myContentScroll');
@@ -2463,7 +2464,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         //获取counsel信息
         Patient.getPatientDetail({ userId: $scope.params.chatId })
             .then(function (data) {
-                $scope.params.targetName = data.results.name;
+                if(data.results.name) $scope.params.patientName = '-'+data.results.name;
                 $scope.photoUrls[data.results.userId] = data.results.photoUrl;
             });
         Doctor.getDoctorInfo({ userId: $scope.params.doctorId })
