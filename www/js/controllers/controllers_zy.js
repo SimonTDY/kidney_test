@@ -747,7 +747,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
 
 }])
 
-.controller('uploadcertificateCtrl',['Dict','Doctor','$scope','$state','$ionicHistory','$timeout' ,'Storage', '$ionicPopup','$ionicLoading','$ionicPopover','$ionicScrollDelegate','User','$http','Camera','$ionicModal','wechat','$location',function(Dict,Doctor,$scope,$state,$ionicHistory,$timeout,Storage, $ionicPopup,$ionicLoading, $ionicPopover,$ionicScrollDelegate,User,$http,Camera,$ionicModal,wechat,$location){
+.controller('uploadcertificateCtrl',['Dict','Doctor','$scope','$state','$ionicHistory','$timeout' ,'Storage', '$ionicPopup','$ionicLoading','$ionicPopover','$ionicScrollDelegate','User','$http','Camera','$ionicModal','wechat','$location', 'CONFIG', function(Dict,Doctor,$scope,$state,$ionicHistory,$timeout,Storage, $ionicPopup,$ionicLoading, $ionicPopover,$ionicScrollDelegate,User,$http,Camera,$ionicModal,wechat,$location, CONFIG){
     
     $scope.doctor={
         "userId":null,
@@ -822,10 +822,10 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
           $timeout(function(){
             $ionicLoading.hide();
             if($scope.flag==0){
-                $scope.doctor.certificatePhotoUrl="http://121.43.107.106:8052/uploads/photos/"+temp_photoaddress
+                $scope.doctor.certificatePhotoUrl=CONFIG.mediaUrl + "uploads/photos/"+temp_photoaddress
             }
             else{
-                $scope.doctor.practisingPhotoUrl="http://121.43.107.106:8052/uploads/photos/"+temp_photoaddress
+                $scope.doctor.practisingPhotoUrl=CONFIG.mediaUrl + "uploads/photos/"+temp_photoaddress
             }
           },1000)
         },function(err){
@@ -1107,63 +1107,63 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
         //         // console.log(data);
         // });
     }
-    var forumReg=function(phone,role)
-    {
-        // console.log(phone.userName+phone.phoneNo.slice(7))
-        var un=phone.userName+phone.phoneNo.slice(7);
-        var url='http://121.43.107.106';
-        if(role=='patient')
-            url+=':6699/member.php?mod=register&mobile=2&handlekey=registerform&inajax=1'
-        else if(role=='doctor')
-            url+='/member.php?mod=register&mobile=2&handlekey=registerform&inajax=1';
-        $http({
-            method  : 'POST',
-            url     : url,
-            params    :{
-                'regsubmit':'yes',
-                'formhash':'xxxxxx',
-                'username':un,
-                'password':un,
-                'password2':un,
-                'email':phone.phoneNo+'@bme319.com'
-            },  // pass in data as strings
-            headers : {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Accept':'application/xml, text/xml, */*'
-            }  // set the headers so angular passing info as form data (not request payload)
-        }).success(function(s){
-            console.log(s)
-        })
-    }
-    $scope.importDocs=function()
-    {
-        $http({
-            method:'GET',
-            url:'http://121.43.107.106:4050/user/getPhoneNoByRole?role=patient'
-        })
-        .success(function(data)
-        {
-            console.log(data)
-            var users=data.results;
-            for(var i=0;i<users.length;i++)
-            {
-                forumReg(users[i],'patient');
-            }
-        })
-        $http({
-            method:'GET',
-            url:'http://121.43.107.106:4050/user/getPhoneNoByRole?role=doctor'
-        })
-        .success(function(data)
-        {
-            console.log(data)
-            var users=data.results;
-            for(var i=0;i<users.length;i++)
-            {
-                forumReg(users[i],'doctor');
-            }
-        })
-    }
+    // var forumReg=function(phone,role)
+    // {
+    //     // console.log(phone.userName+phone.phoneNo.slice(7))
+    //     var un=phone.userName+phone.phoneNo.slice(7);
+    //     var url='http://121.43.107.106';
+    //     if(role=='patient')
+    //         url+=':6699/member.php?mod=register&mobile=2&handlekey=registerform&inajax=1'
+    //     else if(role=='doctor')
+    //         url+='/member.php?mod=register&mobile=2&handlekey=registerform&inajax=1';
+    //     $http({
+    //         method  : 'POST',
+    //         url     : url,
+    //         params    :{
+    //             'regsubmit':'yes',
+    //             'formhash':'xxxxxx',
+    //             'username':un,
+    //             'password':un,
+    //             'password2':un,
+    //             'email':phone.phoneNo+'@bme319.com'
+    //         },  // pass in data as strings
+    //         headers : {
+    //             'Content-Type': 'application/x-www-form-urlencoded',
+    //             'Accept':'application/xml, text/xml, */*'
+    //         }  // set the headers so angular passing info as form data (not request payload)
+    //     }).success(function(s){
+    //         console.log(s)
+    //     })
+    // }
+    // $scope.importDocs=function()
+    // {
+    //     $http({
+    //         method:'GET',
+    //         url:'http://121.43.107.106:4050/user/getPhoneNoByRole?role=patient'
+    //     })
+    //     .success(function(data)
+    //     {
+    //         console.log(data)
+    //         var users=data.results;
+    //         for(var i=0;i<users.length;i++)
+    //         {
+    //             forumReg(users[i],'patient');
+    //         }
+    //     })
+    //     $http({
+    //         method:'GET',
+    //         url:'http://121.43.107.106:4050/user/getPhoneNoByRole?role=doctor'
+    //     })
+    //     .success(function(data)
+    //     {
+    //         console.log(data)
+    //         var users=data.results;
+    //         for(var i=0;i<users.length;i++)
+    //         {
+    //             forumReg(users[i],'doctor');
+    //         }
+    //     })
+    // }
 
     $scope.$on('$ionicView.leave',function(){
       $interval.cancel(RefreshUnread);
@@ -1885,7 +1885,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
 }])
 
 //"我”页
-.controller('meCtrl', ['Doctor','$scope','$state','$interval','$rootScope', 'Storage', 'wechat','$location','$ionicPopup','$ionicPopover','$ionicLoading','$timeout',function(Doctor,$scope, $state,$interval,$rootScope,Storage,wechat,$location,$ionicPopup,$ionicPopover,$ionicLoading,$timeout) {
+.controller('meCtrl', ['Doctor','$scope','$state','$interval','$rootScope', 'Storage', 'wechat','$location','$ionicPopup','$ionicPopover','$ionicLoading','$timeout', 'CONFIG', function(Doctor,$scope, $state,$interval,$rootScope,Storage,wechat,$location,$ionicPopup,$ionicPopover,$ionicLoading,$timeout, CONFIG) {
   $scope.barwidth="width:0%";
    
     //$scope.userid=Storage.get('userid');
@@ -1942,7 +1942,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
           //图片路径
           $timeout(function(){
               $ionicLoading.hide();
-              $scope.doctor.photoUrl="http://121.43.107.106:8052/uploads/photos/"+temp_name+'?'+new Date().getTime();
+              $scope.doctor.photoUrl=CONFIG.mediaUrl + "uploads/photos/"+temp_name+'?'+new Date().getTime();
               
               console.log($scope.doctor.photoUrl)
               // $state.reload("tab.mine")
@@ -2144,7 +2144,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
 
 
 //"我”个人资料页
-.controller('myinfoCtrl', ['Doctor','$scope','Storage', 'wechat','$location','$ionicPopup','$ionicPopover','$ionicLoading','Dict','$timeout','$ionicModal','$ionicScrollDelegate',function(Doctor,$scope, Storage,wechat,$location,$ionicPopup,$ionicPopover,$ionicLoading,Dict,$timeout,$ionicModal,$ionicScrollDelegate) {
+.controller('myinfoCtrl', ['Doctor','$scope','Storage', 'wechat','$location','$ionicPopup','$ionicPopover','$ionicLoading','Dict','$timeout','$ionicModal','$ionicScrollDelegate', 'CONFIG', function(Doctor,$scope, Storage,wechat,$location,$ionicPopup,$ionicPopover,$ionicLoading,Dict,$timeout,$ionicModal,$ionicScrollDelegate, CONFIG) {
     $scope.hideTabs = true;
     $scope.updateDiv=false;
     $scope.myDiv=true;
@@ -2410,10 +2410,10 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
       $timeout(function(){
             $ionicLoading.hide();
             if($scope.flag==0){
-                $scope.doctor.certificatePhotoUrl="http://121.43.107.106:8052/uploads/photos/"+temp_photoaddress
+                $scope.doctor.certificatePhotoUrl=CONFIG.mediaUrl + "uploads/photos/"+temp_photoaddress
             }
             else{
-                $scope.doctor.practisingPhotoUrl="http://121.43.107.106:8052/uploads/photos/"+temp_photoaddress
+                $scope.doctor.practisingPhotoUrl=CONFIG.mediaUrl + "uploads/photos/"+temp_photoaddress
             }
           },1000)
       

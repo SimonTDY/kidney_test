@@ -1286,7 +1286,7 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
 
 
 //健康详情--PXY
-.controller('HealthDetailCtrl', ['ionicDatePicker','$scope','$state','$ionicHistory','$ionicPopup','$stateParams','$ionicPopover','$ionicModal','$ionicScrollDelegate','$ionicLoading','$timeout','Dict','Health','Storage','Camera','wechat','$location',function(ionicDatePicker,$scope, $state,$ionicHistory,$ionicPopup,$stateParams,$ionicPopover,$ionicModal,$ionicScrollDelegate,$ionicLoading,$timeout,Dict,Health,Storage,Camera,wechat,$location) {
+.controller('HealthDetailCtrl', ['ionicDatePicker','$scope','$state','$ionicHistory','$ionicPopup','$stateParams','$ionicPopover','$ionicModal','$ionicScrollDelegate','$ionicLoading','$timeout','Dict','Health','Storage','Camera','wechat','$location', 'CONFIG', function(ionicDatePicker,$scope, $state,$ionicHistory,$ionicPopup,$stateParams,$ionicPopover,$ionicModal,$ionicScrollDelegate,$ionicLoading,$timeout,Dict,Health,Storage,Camera,wechat,$location, CONFIG) {
   $scope.barwidth="width:0%";
   var patientId = Storage.get('getpatientId')
   // var patientId = 'U201702071766'   //测试ID
@@ -1562,7 +1562,7 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
       //图片路径
       $timeout(function(){
         $ionicLoading.hide();
-        $scope.health.imgurl.push("http://121.43.107.106:8052/uploads/photos/"+temp_photoaddress)
+        $scope.health.imgurl.push(CONFIG.mediaUrl + "uploads/photos/"+temp_photoaddress)
       },1000)
       
       
