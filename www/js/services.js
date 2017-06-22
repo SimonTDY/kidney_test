@@ -924,15 +924,15 @@ angular.module('kidney.services', ['ionic','ngResource'])
     var Communication =function(){
         return $resource(CONFIG.baseUrl + ':path/:route',{path:'communication'},{
             conclusion:{method:'POST', params:{route: 'conclusion'}, timeout: 100000},
-            getCommunication:{method:'GET', params:{route: 'getCommunication'}, timeout: 100000},
-            getCounselReport:{method:'GET', params:{route: 'getCounselReport'}, timeout: 100000},
-            getTeam:{method:'GET', params:{route: 'getTeam'}, timeout: 100000},
+            getCommunication:{method:'GET', params:{route: 'communication'}, timeout: 100000},
+            getCounselReport:{method:'GET', params:{route: 'counselReport'}, timeout: 100000},
+            getTeam:{method:'GET', params:{route: 'team'}, timeout: 100000},
             insertMember:{method:'POST', params:{route: 'insertMember'}, timeout: 100000},
-            newConsultation:{method:'POST', params:{route: 'newConsultation'}, timeout: 100000},
-            newTeam:{method:'POST', params:{route: 'newTeam'}, timeout: 100000},
+            newConsultation:{method:'POST', params:{route: 'consultation'}, timeout: 100000},
+            newTeam:{method:'POST', params:{route: 'team'}, timeout: 100000},
             removeMember:{method:'POST', params:{route: 'removeMember'}, timeout: 100000},
             updateLastTalkTime:{method:'POST', params:{route: 'updateLastTalkTime'}, timeout: 100000},
-            getConsultation:{method:'GET', params:{route: 'getConsultation'}, timeout: 100000},
+            getConsultation:{method:'GET', params:{route: 'consultation'}, timeout: 100000},
             conclusion:{method:'POST', params:{route: 'conclusion'}, timeout: 100000}
         });
     }
