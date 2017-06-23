@@ -1026,7 +1026,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
         if($scope.isfullScreen)
         {
             $scope.isfullScreen=false;
-            $scope.isWriting={'margin-top': '100px'};
+            $scope.isWriting={'margin-top': '170px'};
         }
         else
         {
@@ -1034,7 +1034,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
             $scope.isWriting={'margin-top': '0px','z-index':'20'};
         }
     }
-    $scope.isWriting={'margin-top': '165px'};
+    $scope.isWriting={'margin-top': '170px'};
     if(!sessionStorage.addKBEvent)
     {
         // console.log("true")
