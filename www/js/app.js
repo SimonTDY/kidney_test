@@ -24,7 +24,7 @@ angular.module('kidney',[
         
 
         var temp = $location.absUrl().split('=')
-        // alert(temp)
+        alert(temp)
         if (angular.isDefined(temp[1]) == true)
         {
             if (angular.isDefined(temp[2]) == true)
