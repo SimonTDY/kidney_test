@@ -1478,6 +1478,7 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
               }
             )
         }
+      $ionicLoading.hide();
     }
     else{
         $ionicLoading.show({
@@ -1488,9 +1489,9 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
 
   }
 
-  $scope.$on('$ionicView.beforeLeave',function(){
-    $ionicLoading.hide();
-  })
+  // $scope.$on('$ionicView.beforeLeave',function(){
+  //   $ionicLoading.hide();
+  // })
     var ipObj1 = {
         callback: function (val) {  //Mandatory
             // console.log('Return value from the datepicker popup is : ' + val, new Date(val));
