@@ -370,7 +370,14 @@ angular.module('kidney',[
     $ionicConfigProvider.platform.android.tabs.position('standard');
       
     //注册与登录
-    $stateProvider
+    $stateProvider.
+    //初始加载页
+    .state('welcome', {
+      cache: false,
+      url: '/welcome',
+      templateUrl: 'partials/login/welcome.html',
+      controller: 'welcomeCtrl'
+    })
     //登陆
     .state('signin', {
         cache: false,
@@ -933,7 +940,7 @@ angular.module('kidney',[
     })
 
 
-    // $urlRouterProvider.otherwise('/signin');
+    $urlRouterProvider.otherwise('/welcome');
 
 })
 
