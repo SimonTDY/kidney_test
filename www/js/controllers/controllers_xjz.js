@@ -911,7 +911,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                 msg.diff = true;
             } else {
                 var m = $scope.msgs[len - 1];
-                if (m.contentType == 'custom' && m.content.type == 'count-notice') {
+                if (m.contentType == 'custom' && m.content.type == 'count-notice' && len > 1) {
                     m = $scope.msgs[len - 2];
                 }
                 if (m.hasOwnProperty('time')) {
