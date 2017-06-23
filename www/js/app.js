@@ -20,13 +20,11 @@ angular.module('kidney',[
 
 .run(['$ionicPlatform', '$state', 'Storage', 'JM','$ionicHistory','$rootScope','CONFIG','Communication', '$location','wechat','$window','User','Doctor','jmapi','$ionicPopup','$q',function($ionicPlatform, $state, Storage, JM,$ionicHistory,$rootScope,CONFIG,Communication,$location,wechat,$window,User,Doctor,jmapi,$ionicPopup,$q) {
     $ionicPlatform.ready(function() {
-
-        alert("test")
         socket = io.connect('http://121.43.107.106:4050/chat');
         
 
         var temp = $location.absUrl().split('=')
-        alert(temp)
+        // alert(temp)
         if (angular.isDefined(temp[1]) == true)
         {
             if (angular.isDefined(temp[2]) == true)
