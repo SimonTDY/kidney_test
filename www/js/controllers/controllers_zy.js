@@ -3304,7 +3304,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
 
   $scope.welcomeimg = "img/doctor/" + getsplash(width, height);
 
-  document.getElementById('welcome').style.height = height + "px";
+  // document.getElementById('welcome').style.height = height + "px";
   document.getElementById('welcome').style.width = width + "px";
 
   function search(No, array)
