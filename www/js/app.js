@@ -341,7 +341,7 @@ angular.module('kidney',[
     $ionicConfigProvider.platform.android.tabs.position('standard');
       
     //注册与登录
-    $stateProvider.
+    $stateProvider
     //初始加载页
     .state('welcome', {
       cache: false,
