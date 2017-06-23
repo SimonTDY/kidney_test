@@ -1722,6 +1722,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
     }
     $scope.pushMsg = function(msg){
         console.info('pushMsg');
+        var len = $scope.msgs.length;
         if(msg.hasOwnProperty('time')){
             if(len==0){
                 msg.diff=true;
