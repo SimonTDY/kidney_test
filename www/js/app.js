@@ -375,8 +375,7 @@ angular.module('kidney',[
     .state('welcome', {
       cache: false,
       url: '/welcome',
-      templateUrl: 'partials/login/welcome.html',
-      controller: 'welcomeCtrl'
+      templateUrl: 'partials/login/welcome.html'
     })
     //登陆
     .state('signin', {
