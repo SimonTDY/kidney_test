@@ -662,6 +662,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                 content:notice
             }
             $scope.msgs.push(msgJson);
+            toBottom(true,100);
             // socket.emit('message',{msg:msgJson,to:$scope.params.chatId,role:'doctor'});
         }
     }
@@ -1945,10 +1946,10 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                             // socket.on('messageRes', function(data) {
                             // socket.off('messageRes');
                             socket.emit('disconnect');
-                            $ionicLoading.show({ template: '回复成功', duration: 1500 });
                             setTimeout(function() {
+                                $ionicLoading.hide();
                                 $state.go('tab.groups', { type: '0' });
-                            }, 1500);
+                            }, 1000);
                         }else{
                             Account.modifyCounts({doctorId:DID,patientId:PID,modify:'-1'})
                             .then(function(){
@@ -1982,7 +1983,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                                             content:endlMsg
                                         }
                                         socket.emit('message', { msg: endJson, to: PID ,role:'doctor'});
-                                        Counsel.changeCounselStatus({counselId:res.results.counselId,status:0})
+                                        Counsel.changeStatus({doctorId:DID,patientId:PID,type:res.results.type,status:0});
                                     }
                                     socket.emit('disconnect');
                                     $ionicLoading.show({ template: '回复成功'});
