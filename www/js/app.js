@@ -575,7 +575,7 @@ angular.module('kidney',[
         url: '/TestRecord',
         views: {
             'tab-patient':{
-                cache: false,
+                cache: true,
                 controller: 'TestRecordCtrl',
                 templateUrl: 'partials/patient/testrecord.html'
             }
