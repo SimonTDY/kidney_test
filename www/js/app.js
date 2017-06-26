@@ -21,7 +21,7 @@ angular.module('kidney',[
 .run(['$ionicPlatform', '$state', 'Storage', 'JM','$ionicHistory','$rootScope','CONFIG','Communication', '$location','wechat','$window','User','Doctor','jmapi','$ionicPopup','$q',function($ionicPlatform, $state, Storage, JM,$ionicHistory,$rootScope,CONFIG,Communication,$location,wechat,$window,User,Doctor,jmapi,$ionicPopup,$q) {
     $ionicPlatform.ready(function() {
         socket = io.connect('http://121.43.107.106:4050/chat');
-        
+        Storage.rm('chatSender');
 
         var temp = $location.absUrl().split('=')
         // alert(temp)
