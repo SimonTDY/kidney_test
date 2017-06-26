@@ -487,6 +487,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         $scope.getMsg(15).then(function(data){
             $scope.msgs=data;
             toBottom(true,400);
+            toBottom(true,800);
             $scope.params.loaded = true;
         });
     });
@@ -1467,6 +1468,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             $scope.getMsg(15).then(function(data){
                 $scope.msgs=data;
                 toBottom(true,400);
+                toBottom(true,800);
                 $scope.params.loaded = true;
             });
             imgModalInit();
@@ -2283,6 +2285,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         $scope.getMsg(15).then(function (data) {
             $scope.msgs = data;
             toBottom(true, 400);
+            toBottom(true,800);
         });
     });
 
