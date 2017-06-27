@@ -573,7 +573,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             })
         });
         imgModalInit();
-        $scope.getMsg(15).then(function(data){
+        $scope.getMsg(10).then(function(data){
             $scope.msgs=data;
             toBottom(true,500);
             // toBottom(true,800);
@@ -718,7 +718,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
     }
 
     $scope.DisplayMore = function() {
-        $scope.getMsg(15).then(function(data){
+        $scope.getMsg(10).then(function(data){
             $scope.msgs=data;
         });
     }
@@ -1364,7 +1364,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                 });
             });
             imgModalInit();
-            $scope.getMsg(15).then(function(data){
+            $scope.getMsg(10).then(function(data){
                 $scope.msgs=data;
                 toBottom(true,500);
                 // toBottom(true,800);
@@ -1428,7 +1428,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             });
     }
     $scope.DisplayMore = function() {
-        $scope.getMsg(15).then(function(data){
+        $scope.getMsg(10).then(function(data){
             $scope.msgs=data;
         });
     }
@@ -1496,18 +1496,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
     $scope.viewGroup = function(){
         $state.go('tab.group-detail',{teamId:$scope.params.teamId});
     }
-        //长按工具条
-    // var options = [{
-    //     name: '转发医生',
-    // }, {
-    //     name: '转发团队',
-    // }]
-    // $ionicPopover.fromTemplateUrl('partials/others/toolbox-pop.html', {
-    //     scope: $scope,
-    // }).then(function(popover) {
-    //     $scope.options = options;
-    //     $scope.popover = popover;
-    // });
+
     $scope.$on('holdmsg', function(event, args) {
         event.stopPropagation();
     })
@@ -1578,10 +1567,6 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         }
     })
 
-    // $scope.toolChoose = function(data) {
-    //     if (data == 0) $state.go('tab.selectDoc');
-    //     if (data == 1) $state.go('tab.selectTeam');
-    // }
 
     $scope.viewPatient = function(pid){
         Storage.set('getpatientId',pid);
@@ -2144,6 +2129,9 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         if(!delay) delay=100;
         setTimeout(function(){
             $scope.scrollHandle.scrollBottom(animate);
+            $timeout(function(){
+                $scope.scrollHandle.resize();
+            },400);
         },delay)
     }
     //render msgs 
@@ -2167,10 +2155,9 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                 console.log(err);
             })
 
-        $scope.getMsg(15).then(function (data) {
+        $scope.getMsg(10).then(function (data) {
             $scope.msgs = data;
-            toBottom(true, 400);
-            toBottom(true,800);
+            toBottom(true, 500);
         });
     });
 
@@ -2242,7 +2229,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         },5000);
     }
     $scope.DisplayMore = function() {
-        $scope.getMsg(15).then(function(data){
+        $scope.getMsg(10).then(function(data){
             $scope.msgs=data;
         });
     }
