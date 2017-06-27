@@ -415,6 +415,9 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         if(!delay) delay=100;
         $timeout(function(){
             $scope.scrollHandle.scrollBottom(animate);
+            $timeout(function(){
+                $scope.scrollHandle.resize();
+            },400);
         },delay)
     }
     //render msgs
@@ -572,8 +575,8 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         imgModalInit();
         $scope.getMsg(15).then(function(data){
             $scope.msgs=data;
-            toBottom(true,400);
-            toBottom(true,800);
+            toBottom(true,500);
+            // toBottom(true,800);
             $scope.params.loaded = true;
         });
     })
@@ -1267,6 +1270,9 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         if(!delay) delay=100;
         $timeout(function(){
             $scope.scrollHandle.scrollBottom(animate);
+            $timeout(function(){
+                $scope.scrollHandle.resize();
+            },400);
         },delay)
     }
     $scope.$on('$ionicView.beforeEnter', function() {
@@ -1360,8 +1366,8 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             imgModalInit();
             $scope.getMsg(15).then(function(data){
                 $scope.msgs=data;
-                toBottom(true,400);
-                toBottom(true,800);
+                toBottom(true,500);
+                // toBottom(true,800);
                 $scope.params.loaded = true;
             });
         })
