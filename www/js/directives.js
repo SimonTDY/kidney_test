@@ -121,6 +121,19 @@ angular.module('kidney.directives', ['kidney.services'])
         }
     }
 }])
+.directive('floatOverKeyboard',['$window',function($window){
+    return {
+        restict: 'A',
+        link: function(scope,elem){
+            angular.element($window).bind('resize', function(){
+                elem.css('bottom',$window.outerHeight - $window.innerHeight);
+            });
+            scope.$on('$destory',function(){
+                angular.element($window).off(resize);
+            });
+        }
+    }
+}])
 
 //聊天输入框的动态样式，如高度自适应，focus|blur状态
 //XJZ
