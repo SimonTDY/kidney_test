@@ -126,7 +126,7 @@ angular.module('kidney.directives', ['kidney.services'])
         restict: 'A',
         link: function(scope,elem){
             angular.element($window).bind('resize', function(){
-                elem.css('bottom',$window.outerHeight - $window.innerHeight);
+                elem.css('bottom',($window.outerHeight - $window.innerHeight) +'px');
             });
             scope.$on('$destory',function(){
                 angular.element($window).off(resize);
