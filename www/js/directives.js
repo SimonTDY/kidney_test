@@ -125,8 +125,14 @@ angular.module('kidney.directives', ['kidney.services'])
     return {
         restict: 'A',
         link: function(scope,elem){
+            var height = $window.outerHeight;
             angular.element($window).bind('resize', function(){
-                elem.css('bottom',($window.outerHeight - $window.innerHeight) +'px');
+                // elem.scrollIntoViewIfNeeded(false);
+                elem.css('bottom',(height - $window.innerHeight) +'px');
+                // console.log($window.outerHeight - $window.innerHeight);
+                // console.log(height);
+                // console.log($window.innerHeight);
+                // console.log($window)
             });
             scope.$on('$destory',function(){
                 angular.element($window).off(resize);
