@@ -219,7 +219,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                     }, function(err) {
                         console.log(err)
                     });
-            },2000,3);
+            },2000,2);
         }
     }
 
