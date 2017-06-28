@@ -219,7 +219,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                     }, function(err) {
                         console.log(err)
                     });
-            },2000,3);
+            },2000,2);
         }
     }
 
@@ -417,7 +417,10 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             $scope.scrollHandle.scrollBottom(animate);
             $timeout(function(){
                 $scope.scrollHandle.resize();
-            },400);
+            },500);
+            $timeout(function(){
+                $scope.scrollHandle.resize();
+            },1000);
         },delay)
     }
     //render msgs
@@ -909,13 +912,12 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             msg.content.thumb=CONFIG.mediaUrl+msg.content['src_thumb'];
             $http.get(msg.content.thumb).then(function(data){
                 $scope.msgs.push(msg);
-                toBottom(true,400);
-                toBottom(true,800);
+                toBottom(true,600);
                 $scope.params.msgCount++;
             })
         }else{
             $scope.msgs.push(msg);
-            toBottom(true,100);
+            toBottom(true,200);
             $scope.params.msgCount++;
         }
     }
@@ -1241,7 +1243,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
 
 
 //团队聊天
-.controller('GroupChatCtrl', ['$scope', '$state', '$ionicHistory', '$ionicModal', '$ionicScrollDelegate', '$rootScope', '$ionicPopover', '$ionicPopup', 'Camera', 'voice', 'Communication','wechat','$location','Doctor','Storage', '$q','CONFIG','arrTool','$http','New','$timeout',function($scope, $state, $ionicHistory, $ionicModal, $ionicScrollDelegate, $rootScope, $ionicPopover, $ionicPopup, Camera, voice, Communication,wechat,$location,Doctor,Storage,$q,CONFIG,arrTool,$http,New,$timeout) {
+.controller('GroupChatCtrl', ['$scope', '$state', '$ionicHistory', '$ionicModal', '$ionicScrollDelegate', '$rootScope', '$ionicPopover', '$ionicPopup', 'Camera', 'voice', 'Communication','wechat','$location','Doctor','Storage', '$q','CONFIG','arrTool','$http','New','$timeout','$interval',function($scope, $state, $ionicHistory, $ionicModal, $ionicScrollDelegate, $rootScope, $ionicPopover, $ionicPopup, Camera, voice, Communication,wechat,$location,Doctor,Storage,$q,CONFIG,arrTool,$http,New,$timeout,$interval) {
     $scope.input = {
         text: ''
     }
@@ -1272,7 +1274,10 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             $scope.scrollHandle.scrollBottom(animate);
             $timeout(function(){
                 $scope.scrollHandle.resize();
-            },400);
+            },500);
+            $timeout(function(){
+                $scope.scrollHandle.resize();
+            },1000);
         },delay)
     }
     $scope.$on('$ionicView.beforeEnter', function() {
@@ -1611,13 +1616,12 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             msg.content.thumb=CONFIG.mediaUrl+msg.content['src_thumb'];
             $http.get(msg.content.thumb).then(function(data){
                 $scope.msgs.push(msg);
-                toBottom(true,400);
-                toBottom(true,800);
+                toBottom(true,600);
                 $scope.params.msgCount++;
             })
         }else{
             $scope.msgs.push(msg);
-            toBottom(true,100);
+            toBottom(true,200);
             $scope.params.msgCount++;
         }
     }
@@ -2131,7 +2135,10 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             $scope.scrollHandle.scrollBottom(animate);
             $timeout(function(){
                 $scope.scrollHandle.resize();
-            },400);
+            },500);
+            $timeout(function(){
+                $scope.scrollHandle.resize();
+            },1000);
         },delay)
     }
     //render msgs 
