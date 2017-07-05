@@ -148,14 +148,14 @@ angular.module('kidney.directives', ['kidney.services'])
       elem.bind('focus', function () {
         console.log(this.style)
         this.style.borderBottomColor = '#64DD17'
-        this.interval = setInterval(function () {
-          document.body.scrollTop = document.body.scrollHeight
-        }, 200)
+        // this.interval = setInterval(function () {
+        //   document.body.scrollTop = document.body.scrollHeight
+        // }, 200)
       })
       elem.bind('blur', function () {
         this.style.borderBottomColor = '#AAA'
-                // this.setAttribute("style", "border-color: #AAA");
-        clearInterval(this.interval)
+        // this.setAttribute("style", "border-color: #AAA");
+        // clearInterval(this.interval)
       })
     }
   }
@@ -332,29 +332,29 @@ angular.module('kidney.directives', ['kidney.services'])
     restrict: 'A', // 只用于属性
     require: '?ngModel', // get a hold of NgModelController
     link: function (scope, element, attrs, ngModel) {
-      　　　　if (!ngModel) {
-        　　　　　　return
-      　　　　}
-    　　　　// Specify how UI should be updated
-      　　　　ngModel.$render = function () {
-        　　　　　　element.html(ngModel.$viewValue || '')
-      　　　　}
-    　　　　// Listen for change events to enable binding
-      　　　　element.on('blur keyup change', function () {
-        　　　　　　scope.$apply(readViewText)
-      　　　　})
-    　　　　// No need to initialize, AngularJS will initialize the text based on ng-model attribute
-    　　　　// Write data to the model
-      　　　　function readViewText () {
-        　　　　　　var html = element.html()
-    　　　　　　// When we clear the content editable the browser leaves a <br> behind
-    　　　　　　// If strip-br attribute is provided then we strip this out
-        　　　　　　if (attrs.stripBr && html === '<br>') {
-          　　　　　　　　html = ''
-        　　　　　　}
-        　　　　　　ngModel.$setViewValue(html)
-      　　　　}
-    　　　　}
+      if (!ngModel) {
+        return
+      }
+// Specify how UI should be updated
+      ngModel.$render = function () {
+        element.html(ngModel.$viewValue || '')
+      }
+// Listen for change events to enable binding
+      element.on('blur keyup change', function () {
+        scope.$apply(readViewText)
+      })
+// No need to initialize, AngularJS will initialize the text based on ng-model attribute
+// Write data to the model
+      function readViewText () {
+        var html = element.html()
+// When we clear the content editable the browser leaves a <br> behind
+// If strip-br attribute is provided then we strip this out
+        if (attrs.stripBr && html === '<br>') {
+          html = ''
+        }
+        ngModel.$setViewValue(html)
+      }
+    }
   }
 })
 
