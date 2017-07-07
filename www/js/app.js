@@ -55,9 +55,15 @@ angular.module('kidney', [
                 // console.log(wechatData)
                 // alert(wechatData.openid)
                 // alert(wechatData.nickname)
-        Storage.set('openid', wechatData.unionid)
-        Storage.set('messageopenid', wechatData.openid)
-        Storage.set('wechathead', wechatData.headimgurl)
+        if (wechatData.unionid) {
+          Storage.set('openid', wechatData.unionid)
+        }
+        if (wechatData.headimgurl) {
+          Storage.set('wechathead', wechatData.headimgurl)
+        }
+        if (wechatData.openid) {
+          Storage.set('messageopenid', wechatData.openid)
+        }
         if (wechatData.unionid && wechatData.openid) {
                     // User.getUserIDbyOpenId({openId:wechatData.openid}).then(function(data)
                     // {
@@ -97,6 +103,13 @@ angular.module('kidney', [
                                     // $scope.logStatus = "登录成功！";
               $ionicHistory.clearCache()
               $ionicHistory.clearHistory()
+              /**
+               * [获取手机号码]
+               * @Author   TongDanyang
+               * @DateTime 2017-07-07
+               * @param    {[string]}    username [微信返回的unionid]
+               * @return   {[object]}    data.phoneNo [用户的手机号码]
+               */
               User.getUserId({username: Storage.get('openid')}).then(function (data) {
                 if (data.phoneNo) {
                   Storage.set('USERNAME', data.phoneNo)
@@ -137,10 +150,10 @@ angular.module('kidney', [
                    * [写入用户对应肾病守护者联盟的openid]
                    * @Author   TongDanyang
                    * @DateTime 2017-07-05
-                   * @param    {[interger]}   type [description]
+                   * @param    {[interger]}   type [1时是微信医生端]
                    * @param    {[string]}     userId [description]
-                   * @param    {[string]}     openId [description]
-                   * @return   {[type]}             [description]
+                   * @param    {[string]}     openId [微信返回的openid]
+                   * @return   {[object]}             [description]
                    */
                   User.setMessageOpenId({type: 1, userId: Storage.get('UID'), openId: Storage.get('messageopenid')}).then(function (res) {
                                             // results.push(res)
