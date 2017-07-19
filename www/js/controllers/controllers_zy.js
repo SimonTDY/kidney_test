@@ -432,7 +432,8 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
           if (succ.results === 0) { // 验证成功
             $scope.logStatus = '验证成功！'
             Storage.set('phoneNumber', Verify.Phone)
-            if (isregisted) {
+
+            if (isregisted && Storage.get('openid')) {
               /**
                * [将unionid于手机号绑定]
                * @Author   TongDanyang
@@ -478,7 +479,7 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
                     ]
                   })
                 }
-              }, function () {
+              }, function (err) {
                 $scope.logStatus = '连接超时！'
               })
             } else if (validMode === 0) {
