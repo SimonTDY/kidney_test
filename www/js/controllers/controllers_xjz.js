@@ -1034,9 +1034,10 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         type: 'endl',
         info: '咨询已结束',
         docId: thisDoctor.userId,
-        counseltype: 1
+        counseltype: 1,
+        counselId:$scope.params.counselId
       }
-      if (type == 2) {
+      if (type == 2 || type == 3) {
         endlMsg.info = '问诊已结束'
         endlMsg.counseltype = 2
       }
