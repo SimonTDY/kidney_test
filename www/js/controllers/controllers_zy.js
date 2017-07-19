@@ -432,18 +432,19 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
           if (succ.results === 0) { // 验证成功
             $scope.logStatus = '验证成功！'
             Storage.set('phoneNumber', Verify.Phone)
-            if (!(Storage.get('openid'))) {
-              $ionicPopup.show({
-                title: '退出账号时系统记录被清除，请返回公众号重新进入工作台',
-                buttons: [
-                  {
-                    text: '確定',
-                    type: 'button-positive'
-                  }
-                ]
-              })
-            }
-            if (isregisted && Storage.get('openid')) {
+
+            if (isregisted) {
+              if (!(Storage.get('openid'))) {
+                $ionicPopup.show({
+                  title: '退出账号时系统记录被清除，请返回公众号重新进入工作台',
+                  buttons: [
+                    {
+                      text: '確定',
+                      type: 'button-positive'
+                    }
+                  ]
+                })
+              } else {
               /**
                * [将unionid于手机号绑定]
                * @Author   TongDanyang
@@ -452,8 +453,8 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
                * @param    {[string]}    openId [微信返回的unionid]
                * @return   {[object]}   data.results   [反馈是否绑定成功]
                */
-              User.setOpenId({phoneNo: Verify.Phone, openId: Storage.get('openid')}).then(function (data) {
-                if (data.results === 'success!') {
+                User.setOpenId({phoneNo: Verify.Phone, openId: Storage.get('openid')}).then(function (data) {
+                  if (data.results === 'success!') {
                   /**
                    * [将用户的openid存入数据库]
                    * @Author   TongDanyang
@@ -463,35 +464,36 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
                    * @param    {[string]}    openId  [微信返回的openid]
                    * @return   {[object]}             [description]
                    */
-                  User.setMessageOpenId({type: 1, userId: tempuserId, openId: Storage.get('messageopenid')}).then(function (res) {
-                    console.log('setopenid')
-                  }, function () {
-                    console.log('连接超时！')
-                  })
-                  $ionicPopup.show({
-                    title: '微信账号绑定手机账号成功，是否重置密码？',
-                    buttons: [
-                      {
-                        text: '取消',
-                        type: 'button',
-                        onTap: function (e) {
-                          $state.go('signin')
+                    User.setMessageOpenId({type: 1, userId: tempuserId, openId: Storage.get('messageopenid')}).then(function (res) {
+                      console.log('setopenid')
+                    }, function () {
+                      console.log('连接超时！')
+                    })
+                    $ionicPopup.show({
+                      title: '微信账号绑定手机账号成功，是否重置密码？',
+                      buttons: [
+                        {
+                          text: '取消',
+                          type: 'button',
+                          onTap: function (e) {
+                            $state.go('signin')
+                          }
+                        },
+                        {
+                          text: '確定',
+                          type: 'button-positive',
+                          onTap: function (e) {
+                            Storage.set('validMode', 1)
+                            $state.go('setpassword')
+                          }
                         }
-                      },
-                      {
-                        text: '確定',
-                        type: 'button-positive',
-                        onTap: function (e) {
-                          Storage.set('validMode', 1)
-                          $state.go('setpassword')
-                        }
-                      }
-                    ]
-                  })
-                }
-              }, function (err) {
-                $scope.logStatus = '连接超时！'
-              })
+                      ]
+                    })
+                  }
+                }, function (err) {
+                  $scope.logStatus = '连接超时！'
+                })
+              }
             } else if (validMode === 0) {
               $state.go('agreement', {last: 'register'})
             } else {
