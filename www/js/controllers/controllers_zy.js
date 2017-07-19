@@ -432,7 +432,17 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
           if (succ.results === 0) { // 验证成功
             $scope.logStatus = '验证成功！'
             Storage.set('phoneNumber', Verify.Phone)
-
+            if (!(Storage.get('openid'))) {
+              $ionicPopup.show({
+                title: '退出账号时系统记录被清除，请返回公众号重新进入工作台',
+                buttons: [
+                  {
+                    text: '確定',
+                    type: 'button-positive'
+                  }
+                ]
+              })
+            }
             if (isregisted && Storage.get('openid')) {
               /**
                * [将unionid于手机号绑定]
