@@ -1242,40 +1242,41 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
    * @return   {[type]}   [description]
    */
   $scope.submitMsg = function () {
-    if ($scope.params.newsType == '11') var targetRole = 'patient'
-    else var targetRole = 'doctor'
-    var actionUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxab9c316b3076535d&redirect_uri=http://proxy.haihonghospitalmanagement.com/go&response_type=code&scope=snsapi_userinfo&state=' + targetRole + '_' + $scope.params.newsType + '_' + $state.params.type + '_' + $scope.params.UID + '_' + $state.params.counselId + '&#wechat_redirect'
-    var template = {
-      'userId': $scope.params.chatId, // 患者的UID
-      'role': 'patient',
-      'postdata': {
-        'template_id': 'N_0kYsmxrQq-tfJhGUo746G8Uem6uHZgK138HIBKI2I',
-        'url': actionUrl,
-        'data': {
-          'first': {
-            'value': '您的' + ($scope.counseltype == 1 ? '咨询' : '问诊') + $scope.params.counsel.symptom + '已被回复！', // XXX取那个咨询或问诊的标题
-            'color': '#173177'
-          },
-          'keyword1': {
-            'value': $scope.params.counsel.help, // 咨询的问题
-            'color': '#173177'
-          },
-          'keyword2': {
-            'value': $scope.input.text, // 医生的回复
-            'color': '#173177'
-          },
-          'keyword3': {
-            'value': thisDoctor.name, // 回复医生的姓名
-            'color': '#173177'
-          },
-          'remark': {
-            'value': '感谢您的使用！',
-            'color': '#173177'
+    if ($scope.params.newsType == '11') {
+      var targetRole = 'patient'
+      var actionUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb830b12dc0fa74e5&redirect_uri=http://proxy.haihonghospitalmanagement.com/go&response_type=code&scope=snsapi_userinfo&state=' + targetRole + '_' + $scope.params.newsType + '_' + $state.params.type + '_' + $scope.params.UID + '_' + $state.params.counselId + '&#wechat_redirect'
+      var template = {
+        'userId': $scope.params.chatId, // 患者的UID
+        'role': 'patient',
+        'postdata': {
+          'template_id': 'N_0kYsmxrQq-tfJhGUo746G8Uem6uHZgK138HIBKI2I',
+          'url': actionUrl,
+          'data': {
+            'first': {
+              'value': '您的' + ($scope.counseltype == 1 ? '咨询' : '问诊') + $scope.params.counsel.symptom + '已被回复！', // XXX取那个咨询或问诊的标题
+              'color': '#173177'
+            },
+            'keyword1': {
+              'value': $scope.params.counsel.help, // 咨询的问题
+              'color': '#173177'
+            },
+            'keyword2': {
+              'value': $scope.input.text, // 医生的回复
+              'color': '#173177'
+            },
+            'keyword3': {
+              'value': thisDoctor.name, // 回复医生的姓名
+              'color': '#173177'
+            },
+            'remark': {
+              'value': '感谢您的使用！',
+              'color': '#173177'
+            }
           }
         }
       }
+      wechat.messageTemplate(template)
     }
-    wechat.messageTemplate(template)
     sendmsg($scope.input.text, 'text')
     $scope.input.text = ''
   }
@@ -2340,7 +2341,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
           var csl = messageRes.msg.content.counsel
           socket.off('messageRes')
           socket.emit('disconnect')
-          var actionUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxab9c316b3076535d&redirect_uri=http://proxy.haihonghospitalmanagement.com/go&response_type=code&scope=snsapi_userinfo&state=doctor_12_2_' + Storage.get('UID') + '_doctor' + '&#wechat_redirect'
+          var actionUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfa2216ac422fb747&redirect_uri=http://proxy.haihonghospitalmanagement.com/go&response_type=code&scope=snsapi_userinfo&state=doctor_12_2_' + Storage.get('UID') + '_doctor' + '&#wechat_redirect'
           var template = {
             'userId': doc.userId, // 医生的UID
             'role': 'doctor',
