@@ -2233,7 +2233,8 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                   type: 'endl',
                   info: '咨询已结束',
                   docId: DID,
-                  counseltype: 1
+                  counseltype: 1,
+                  counselId: $scope.patient.diseaseInfo.counselId
                 }
                 var endJson = {
                   clientType: 'wechatdoctor',
