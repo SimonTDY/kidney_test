@@ -63,8 +63,8 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
             }, function (err) {
               thisDoctor = null
             })
-            socket = io.connect(CONFIG.socketUrl)
-            socket.emit('newUser', {user_name: $scope.logOn.username, user_id: data.results.userId})
+            // socket = io.connect(CONFIG.socketUrl)
+            // socket.emit('newUser', {user_name: $scope.logOn.username, user_id: data.results.userId})
                         // socket.on('err',function(data){
                         //     console.log(data)
                         //     // $rootScope.$broadcast('receiveMessage',data);
@@ -2874,8 +2874,8 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
     Storage.rm('PASSWORD')
     Storage.rm('userid')
     Storage.clear()
-    socket.emit('disconnect')
-    socket.disconnect()
+    // socket.emit('disconnect')
+    // socket.disconnect()
     $scope.navigation_login = $sce.trustAsResourceUrl('http://proxy.haihonghospitalmanagement.com/member.php?mod=logging&action=logout&formhash=xxxxxx')
     console.log($state)
     $timeout(function () { $state.go('signin') }, 500)
