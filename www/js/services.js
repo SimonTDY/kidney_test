@@ -1009,7 +1009,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
   serve.Advice = Advice()
   return serve
 }])
-.factory('Dict', ['$q', 'Data', 'checknetwork', function ($q, Data, 'checknetwork') {
+.factory('Dict', ['$q', 'Data', 'checknetwork', function ($q, Data, checknetwork) {
   var self = this
     // params->{
             //  category:'patient_class'
