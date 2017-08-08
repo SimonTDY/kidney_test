@@ -189,3 +189,42 @@ angular.module('kidney.filters', [])
     return ret.toFixed(2)
   }
 }])
+.filter('changepatientimgip', [function () {
+  return function (url) {
+    if (url) {
+      if (url.indexOf('https' !== -1)) {
+        url = url.replace(/https/, 'http')
+      }
+    } else {
+      url = 'img/patient.png'
+    }
+
+    return url
+  }
+}])
+.filter('changedoctorimgip', [function () {
+  return function (url) {
+    if (url) {
+      if (url.indexOf('https' !== -1)) {
+        url = url.replace(/https/, 'http')
+      }
+    } else {
+      url = 'img/doctor.png'
+    }
+
+    return url
+  }
+}])
+.filter('changeimgip', [function () {
+  return function (url) {
+    if (url) {
+      if (url.indexOf('https' !== -1)) {
+        url = url.replace(/https/, 'http')
+      }
+    } else {
+      url = 'img/DefaultAvatar.jpg'
+    }
+
+    return url
+  }
+}])

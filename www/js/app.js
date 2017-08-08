@@ -23,13 +23,10 @@ angular.module('kidney', [
     socket = io.connect(CONFIG.socketUrl)
     Storage.rm('chatSender')
 
-    /*
-    获取url中的code（微信给的用于换取token）及state（自定义，目前用于页面跳转）信息
-     */
     var temp = $location.absUrl().split('=')
         // alert(temp)
-    if (temp[1]) {
-      if (temp[2]) {
+    if (angular.isDefined(temp[1]) == true) {
+      if (angular.isDefined(temp[2]) == true) {
         var code = temp[1].split('&')[0]
         var state = temp[2].split('#')[0]
         var params = state.split('_')
@@ -41,29 +38,16 @@ angular.module('kidney', [
     }
 
     var wechatData = ''
-    if (code) {
-      /**
-       * 获取微信个人信息，提供code给api后由服务器向微信请求用户个人信息并返回个人信息给前端
-       * @Author   TongDanyang
-       * @DateTime 2017-07-05
-       * @param    code：string   微信提供的用于换取token的字符串
-       * @return   {[results]}          [微信返回的用户个人信息]
-       */
+    if (code != '' && code != undefined) {
       wechat.getUserInfo({code: code}).then(function (data) {
                 // alert(1)
         wechatData = data.results
                 // console.log(wechatData)
                 // alert(wechatData.openid)
                 // alert(wechatData.nickname)
-        if (wechatData.unionid) {
-          Storage.set('openid', wechatData.unionid)
-        }
-        if (wechatData.headimgurl) {
-          Storage.set('wechathead', wechatData.headimgurl)
-        }
-        if (wechatData.openid) {
-          Storage.set('messageopenid', wechatData.openid)
-        }
+        Storage.set('openid', wechatData.unionid)
+        Storage.set('messageopenid', wechatData.openid)
+        Storage.set('wechathead', wechatData.headimgurl)
         if (wechatData.unionid && wechatData.openid) {
                     // User.getUserIDbyOpenId({openId:wechatData.openid}).then(function(data)
                     // {
@@ -88,30 +72,14 @@ angular.module('kidney', [
                     //     }
                     //     else
                     //     {
-          /**
-           * [利用微信返回的unionid进行登录]
-           * @Author   TongDanyang
-           * @DateTime 2017-07-05
-           * @param    {[string]}    [username] [description]
-           * @param    {[string]}    [password] [description]
-           * @param    {[string]}    [role]     [系统用于识别请求客户端的身份表示]
-           * @return   {[Object]}          data.results.mesg   [反馈登录状态信息]
-           */
           User.logIn({username: Storage.get('openid'), password: Storage.get('openid'), role: 'doctor'}).then(function (data) {
             console.log(data)
-            if (data.results.mesg === 'login success!') {
+            if (data.results.mesg == 'login success!') {
                                     // $scope.logStatus = "登录成功！";
               $ionicHistory.clearCache()
               $ionicHistory.clearHistory()
-              /**
-               * [获取手机号码]
-               * @Author   TongDanyang
-               * @DateTime 2017-07-07
-               * @param    {[string]}    username [微信返回的unionid]
-               * @return   {[object]}    data.phoneNo [用户的手机号码]
-               */
               User.getUserId({username: Storage.get('openid')}).then(function (data) {
-                if (data.phoneNo) {
+                if (angular.isDefined(data.phoneNo) == true) {
                   Storage.set('USERNAME', data.phoneNo)
                 }
               }, function (err) {
@@ -125,48 +93,25 @@ angular.module('kidney', [
 
               var results = []
               var errs = []
-              // 根据state的进行不同的操作，包含qrcode时跳转到二维码页面，包含newsufferer时跳转到患者页面，有params时进入具体的交流页面，其他进行登录的后续操作
-              if (state === 'testqrcode' || state === 'qrcode') {
+
+              if (state == 'testqrcode' || state == 'qrcode') {
                 $state.go('myqrcode')
-              } else if (state === 'testnewsufferer' || state === 'newsufferer') {
+              } else if (state == 'testnewsufferer' || state == 'newsufferer') {
                 $state.go('tab.patient')
-              } else if (params.length > 1 && params[0] === 'doctor') {
-                if (params[1] === '13') { $state.go('tab.group-chat', {type: params[2], groupId: params[3], teamId: params[4]}) } else { $state.go('tab.detail', {type: params[2], chatId: params[3], counselId: params[4]}) }
+              } else if (params.length > 1 && params[0] == 'doctor') {
+                if (params[1] == '13') { $state.go('tab.group-chat', {type: params[2], groupId: params[3], teamId: params[4]}) } else { $state.go('tab.detail', {type: params[2], chatId: params[3], counselId: params[4]}) }
               } else {
                 $q.all([
-                  /**
-                   * [根据用户ID获取协议状态]
-                   * @Author   TongDanyang
-                   * @DateTime 2017-07-05
-                   * @param    {[string]}   userId [用户ID]
-                   * @return   {[Object]}   res.results.agreement [agreement是0表示已签署跳转到首页;否则是未签署跳转到签署协议页]
-                   */
                   User.getAgree({userId: data.results.userId}).then(function (res) {
                     results.push(res)
                   }, function (err) {
                     errs.push(err)
                   }),
-                  /**
-                   * [写入用户对应肾病守护者联盟的openid]
-                   * @Author   TongDanyang
-                   * @DateTime 2017-07-05
-                   * @param    {[interger]}   type [1时是微信医生端]
-                   * @param    {[string]}     userId [description]
-                   * @param    {[string]}     openId [微信返回的openid]
-                   * @return   {[object]}             [description]
-                   */
                   User.setMessageOpenId({type: 1, userId: Storage.get('UID'), openId: Storage.get('messageopenid')}).then(function (res) {
                                             // results.push(res)
                   }, function (err) {
                     errs.push(err)
                   }),
-                  /**
-                   * [获取医生个人信息，如果没有头像则将微信头像作为其默认头像]
-                   * @Author   TongDanyang
-                   * @DateTime 2017-07-05
-                   * @param    {[string]}    userId [description]
-                   * @return   {[type]}             [description]
-                   */
                   Doctor.getDoctorInfo({userId: Storage.get('UID')}).then(function (res) {
                     results.push(res)
                   }, function (err) {
@@ -176,23 +121,15 @@ angular.module('kidney', [
                   console.log(results)
                   var a, b
                   for (var i in results) {
-                    if (results[i].results.agreement) {
+                    if (results[i].results.agreement != undefined) {
                       a = i
                     } else {
                       b = i
                     }
                   }
-                  if (results[a].results.agreement === '0') {
+                  if (results[a].results.agreement == '0') {
                     if (results[b].results != null) {
                       if (results[b].results.photoUrl == undefined || results[b].results.photoUrl == '') {
-                        /**
-                         * [将微信头像的地址存到医生个人信息中]
-                         * @Author   TongDanyang
-                         * @DateTime 2017-07-05
-                         * @param    {[string]}    userId [description]
-                         * @param    {[string]}    photoUrl [description]
-                         * @return   {[type]}             [description]
-                         */
                         Doctor.editDoctorDetail({userId: Storage.get('UID'), photoUrl: wechatData.headimgurl}).then(function (r) {
                           $state.go('tab.home')
                         }, function (err) {
@@ -212,19 +149,20 @@ angular.module('kidney', [
             } else {
               $state.go('signin')
             }
-          }, function (data) {
-            if (data.results == null && data.status === 0) {
-              $scope.logStatus = '网络错误！'
-              $state.go('signin')
-              return
-            }
-            if (data.status === 404) {
-              $scope.logStatus = '连接服务器失败！'
-              $state.go('signin')
-              return
-            }
-            $state.go('signin')
-          })
+          },
+                            function (data) {
+                              if (data.results == null && data.status == 0) {
+                                $scope.logStatus = '网络错误！'
+                                $state.go('signin')
+                                return
+                              }
+                              if (data.status == 404) {
+                                $scope.logStatus = '连接服务器失败！'
+                                $state.go('signin')
+                                return
+                              }
+                              $state.go('signin')
+                            })
                         // }
                     // },function(err)
                     // {
@@ -931,7 +869,7 @@ angular.module('kidney', [
 .config(['$httpProvider', 'jwtOptionsProvider', function ($httpProvider, jwtOptionsProvider) {
     // 下面的getter可以注入各种服务, service, factory, value, constant, provider等, constant, provider可以直接在.config中注入, 但是前3者不行
   jwtOptionsProvider.config({
-    whiteListedDomains: ['121.196.221.44', '121.43.107.106', 'testpatient.haihonghospitalmanagement.com', 'testdoctor.haihonghospitalmanagement.com', 'patient.haihonghospitalmanagement.com', 'doctor.haihonghospitalmanagement.com', 'localhost', 'appserviceserver.haihonghospitalmanagement.com', 'appmediaserver.haihonghospitalmanagement.com', 'socketserver.haihonghospitalmanagement.com'],
+    whiteListedDomains: ['121.196.221.44', '121.43.107.106', 'testpatient.haihonghospitalmanagement.com', 'testdoctor.haihonghospitalmanagement.com', 'patient.haihonghospitalmanagement.com', 'doctor.haihonghospitalmanagement.com', 'localhost'],
     tokenGetter: ['options', 'jwtHelper', '$http', 'CONFIG', 'Storage', '$state', '$ionicLoading', '$ionicPopup', function (options, jwtHelper, $http, CONFIG, Storage, $state, $ionicLoading, $ionicPopup) {
          // console.log(config);
         // console.log(CONFIG.baseUrl);
@@ -946,9 +884,7 @@ angular.module('kidney', [
 
       var isExpired = true
       try {
-        /*
-         * 由于jwt自带的过期判断方法与服务器端使用的加密方法不匹配，使用jwthelper解码的方法对token进行解码后自行判断token是否过期
-         */
+            // isExpired = jwtHelper.isTokenExpired(token);
         var temp = jwtHelper.decodeToken(token)
         if (temp.exp === 'undefined') {
           isExpired = false
@@ -972,13 +908,6 @@ angular.module('kidney', [
             // This is a promise of a JWT token
              // console.log(token);
         if (refreshToken && refreshToken.length >= 16) {  // refreshToken字符串长度应该大于16, 小于即为非法
-          /**
-           * [刷新token]
-           * @Author   TongDanyang
-           * @DateTime 2017-07-05
-           * @param    {[string]}  refreshToken [description]
-           * @return   {[object]}  data.results  [新的token信息]
-           */
           return $http({
             url: CONFIG.baseUrl + 'token/refresh?refresh_token=' + refreshToken,
                     // This makes it so that this request doesn't send the JWT
@@ -994,7 +923,7 @@ angular.module('kidney', [
             return res.data.results.token
           }, function (err) {
             console.log(err)
-            if (refreshToken === Storage.get('refreshToken')) {
+            if (refreshToken == Storage.get('refreshToken')) {
                       // console.log("凭证不存在!")
                       // console.log(options)
               $ionicPopup.show({
@@ -1033,7 +962,6 @@ angular.module('kidney', [
 
   $httpProvider.interceptors.push('jwtInterceptor')
 }])
-// tab的控制器 ZY
 .controller('tabCtrl', ['$state', '$scope', function ($state, $scope) {
   $scope.goHome = function () {
     setTimeout(function () {

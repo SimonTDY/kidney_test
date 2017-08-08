@@ -52,16 +52,11 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
   socketUrl: 'http://121.43.107.106:4050/chat',
   imgThumbUrl: 'http://121.43.107.106:8052/uploads/photos/resize',
   imgLargeUrl: 'http://121.43.107.106:8052/uploads/photos/',
-  // baseUrl: 'http://121.196.221.44:4060/api/v1/',
-  // mediaUrl: 'http://121.196.221.44:8055/',
-  // socketUrl: 'http://121.196.221.44:4060/chat',
-  // imgThumbUrl: 'http://121.196.221.44:8055/uploads/photos/resize',
-  // imgLargeUrl: 'http://121.196.221.44:8055/uploads/photos/',
   cameraOptions: {
     cam: {
       quality: 60,
       destinationType: 1,
-      sourceTypes: 1,
+      sourceType: 1,
       allowEdit: true,
       encodingType: 0,
       targetWidth: 1000,
@@ -1014,7 +1009,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
   serve.Advice = Advice()
   return serve
 }])
-.factory('Dict', ['$q', 'Data', function ($q, Data) {
+.factory('Dict', ['$q', 'Data', 'checknetwork', function ($q, Data, 'checknetwork') {
   var self = this
     // params->{
             //  category:'patient_class'
@@ -1027,6 +1022,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1045,6 +1041,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1061,6 +1058,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1076,6 +1074,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1091,6 +1090,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1098,7 +1098,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
   return self
 }])
 
-.factory('Task', ['$q', 'Data', function ($q, Data) {
+.factory('Task', ['$q', 'Data', 'checknetwork', function ($q, Data, checknetwork) {
   var self = this
     // params->{
             //  userId:'U201704050002',//usderId="Admin"，sortNo为空时获取系统全部任务模板，sortNo="1"时获取指定任务模板，userId为用户ID时获取指定用户的任务信息
@@ -1131,6 +1131,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1147,6 +1148,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1166,6 +1168,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1179,6 +1182,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1192,6 +1196,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1199,7 +1204,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
 
   return self
 }])
-.factory('Compliance', ['$q', 'Data', function ($q, Data) {
+.factory('Compliance', ['$q', 'Data', 'checknetwork', function ($q, Data, checknetwork) {
   var self = this
     // params->{
             // "userId": "U201704050002",
@@ -1217,6 +1222,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1233,13 +1239,14 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
   }
   return self
 }])
-.factory('Communication', ['$q', 'Data', 'Storage', function ($q, Data, Storage) {
+.factory('Communication', ['$q', 'Data', 'Storage', 'checknetwork', function ($q, Data, Storage, checknetwork) {
   var self = this
     // params->0:{
             //      teamId:'teampost2',
@@ -1256,6 +1263,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1270,6 +1278,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1285,6 +1294,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1299,6 +1309,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1312,6 +1323,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1329,6 +1341,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1346,6 +1359,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1366,6 +1380,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1388,6 +1403,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1401,6 +1417,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1408,7 +1425,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
 
   return self
 }])
-.factory('User', ['$q', 'Data', function ($q, Data) {
+.factory('User', ['$q', 'Data', 'checknetwork', function ($q, Data, checknetwork) {
   var self = this
     // params->{
         // phoneNo:"18768113669",
@@ -1424,6 +1441,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1441,6 +1459,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1455,6 +1474,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1470,6 +1490,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1489,6 +1510,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1504,6 +1526,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1519,6 +1542,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1536,6 +1560,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1554,6 +1579,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1582,6 +1608,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1596,6 +1623,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1610,6 +1638,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1624,6 +1653,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             }
         )
@@ -1633,7 +1663,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
   return self
 }])
 
-.factory('Health', ['$q', 'Data', function ($q, Data) {
+.factory('Health', ['$q', 'Data', 'checknetwork', function ($q, Data, checknetwork) {
   var self = this
     // params->{
             //  userId:'U201704010003',//unique
@@ -1652,6 +1682,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1668,6 +1699,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1685,6 +1717,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1706,6 +1739,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1724,13 +1758,14 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
   }
   return self
 }])
-.factory('Message', ['$q', 'Data', function ($q, Data) {
+.factory('Message', ['$q', 'Data', 'checknetwork', function ($q, Data, checknetwork) {
   var self = this
     // params->0:{
     //    userId:'U201704120001',
@@ -1744,13 +1779,14 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
   }
   return self
 }])
-.factory('New', ['$q', 'Data', 'arrTool', function ($q, Data, arrTool) {
+.factory('New', ['$q', 'Data', 'arrTool', 'checknetwork', function ($q, Data, arrTool, checknetwork) {
   var self = this
   self.getNews = function (params) {
     var deferred = $q.defer()
@@ -1760,6 +1796,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1772,6 +1809,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1784,6 +1822,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              // checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1826,6 +1865,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               })
               resolve(arr)
             }, function (err) {
+              checknetwork.checknetwork(err)
               resolve(arr)
             })
     })
@@ -1851,13 +1891,14 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               })
               resolve(arr)
             }, function (err) {
+              checknetwork.checknetwork(err)
               resolve(arr)
             })
     })
   }
   return self
 }])
-.factory('Account', ['$q', 'Data', function ($q, Data) {
+.factory('Account', ['$q', 'Data', 'checknetwork', function ($q, Data, checknetwork) {
   var self = this
     // params->0:{userId:'p01'}
   self.getAccountInfo = function (params) {
@@ -1868,6 +1909,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1880,6 +1922,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1892,13 +1935,14 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
   }
   return self
 }])
-.factory('VitalSign', ['$q', 'Data', function ($q, Data) {
+.factory('VitalSign', ['$q', 'Data', 'checknetwork', function ($q, Data, checknetwork) {
   var self = this
     // params->0:{userId:'p01',type:'type1'}
   self.getVitalSigns = function (params) {
@@ -1909,13 +1953,14 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
   }
   return self
 }])
-.factory('Comment', ['$q', 'Data', function ($q, Data) {
+.factory('Comment', ['$q', 'Data', 'checknetwork', function ($q, Data, checknetwork) {
   var self = this
     // params->0:{userId:'doc01'}
   self.getComments = function (params) {
@@ -1926,13 +1971,14 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
   }
   return self
 }])
-.factory('Patient', ['$q', 'Data', function ($q, Data) {
+.factory('Patient', ['$q', 'Data', 'checknetwork', function ($q, Data, checknetwork) {
   var self = this
     // params->0:{userId:'p01'}
   self.getPatientDetail = function (params) {
@@ -1943,6 +1989,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1957,6 +2004,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1972,6 +2020,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -1986,6 +2035,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2007,6 +2057,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2035,6 +2086,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2062,6 +2114,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2069,7 +2122,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
 
   return self
 }])
-.factory('Doctor', ['$q', 'Data', function ($q, Data) {
+.factory('Doctor', ['$q', 'Data', 'checknetwork', function ($q, Data, checknetwork) {
   var self = this
     // params->0:{
            //   userId:'docpostTest',//unique
@@ -2093,6 +2146,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2109,6 +2163,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2125,6 +2180,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2141,6 +2197,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2156,6 +2213,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data.results)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2172,6 +2230,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2189,6 +2248,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2202,6 +2262,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2220,6 +2281,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2236,6 +2298,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2254,6 +2317,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2270,6 +2334,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2288,6 +2353,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2306,6 +2372,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2322,6 +2389,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2335,6 +2403,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2349,6 +2418,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2362,6 +2432,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             }
         )
@@ -2370,7 +2441,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
 
   return self
 }])
-.factory('Counsel', ['$q', 'Data', function ($q, Data) {
+.factory('Counsel', ['$q', 'Data', 'checknetwork', function ($q, Data, checknetwork) {
   var self = this
     // params->0:{userId:'doc01',status:1}
     //        1:{userId:'doc01'}
@@ -2384,6 +2455,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2405,6 +2477,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2417,6 +2490,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2429,6 +2503,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2441,6 +2516,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2448,7 +2524,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
   return self
 }])
 
-.factory('Insurance', ['$q', 'Data', function ($q, Data) {
+.factory('Insurance', ['$q', 'Data', 'checknetwork', function ($q, Data, checknetwork) {
   var self = this
     // //params->0:{
     //                 doctorId:'doc01',
@@ -2462,6 +2538,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2479,6 +2556,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2531,7 +2609,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
   }
 })
 
-.factory('wechat', ['$q', 'Data', function ($q, Data) {
+.factory('wechat', ['$q', 'Data', 'checknetwork', function ($q, Data, checknetwork) {
   var self = this
     // params->{
             //  url:'patient_class'
@@ -2545,6 +2623,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2561,6 +2640,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2578,6 +2658,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2591,6 +2672,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2605,6 +2687,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2612,7 +2695,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
 
   return self
 }])
-.factory('jm', ['$q', 'Data', function ($q, Data) {
+.factory('jm', ['$q', 'Data', 'checknetwork', function ($q, Data, checknetwork) {
   var self = this
     // params->{
             //  url:'patient_class'
@@ -2625,6 +2708,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2640,6 +2724,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2656,6 +2741,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2664,7 +2750,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
   return self
 }])
 
-.factory('Expense', ['$q', 'Data', function ($q, Data) {
+.factory('Expense', ['$q', 'Data', 'checknetwork', function ($q, Data, checknetwork) {
   var self = this
 
     // params->0:{
@@ -2680,6 +2766,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
@@ -2688,7 +2775,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
   return self
 }])
 
-.factory('Advice', ['$q', 'Data', function ($q, Data) {
+.factory('Advice', ['$q', 'Data', 'checknetwork', function ($q, Data, checknetwork) {
   var self = this
   self.postAdvice = function (params) {
     var deferred = $q.defer()
@@ -2698,9 +2785,91 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
               deferred.resolve(data)
             },
             function (err) {
+              checknetwork.checknetwork(err)
               deferred.reject(err)
             })
     return deferred.promise
   }
   return self
+}])
+
+.factory('checknetwork', ['$q', '$ionicLoading', '$rootScope', '$injector', 'Storage', function ($q, $ionicLoading, $rootScope, $injector, Storage) {
+  return {
+    checknetwork: function (err) {
+      $rootScope.$watch('online', function () {
+        if (navigator.onLine) {
+          $ionicLoading.show({
+            template: "<p ng-click='stoploading()'>服务器连接失败，请稍候再试！</p>",
+            duration: 2000,
+            scope: $rootScope
+          })
+        } else {
+          $ionicLoading.show({
+            template: "<p ng-click='stoploading()'>请确认您的手机是否连接网络！</p>",
+            duration: 2000,
+            scope: $rootScope
+          })
+        }
+      })
+      var $http = $injector.get('$http')
+      $http({
+        method: 'POST',
+        url: 'http://121.43.107.106:4050/api/v1/log ',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: {
+          'userId': Storage.get('UID'),
+          'role': 'patient',
+          'userProxy': window.navigator.userAgent,
+          'webState': navigator.onLine + '~~' + navigator.connection,
+          'errStack': err
+        }
+      }).then(function successCallback (response) {
+      // console.log(response)
+    // this callback will be called asynchronously
+    // when the response is available
+      }, function errorCallback (response) {
+      // console.log(response)
+    // called asynchronously if an error occurs
+    // or server returns response with an error status.
+      })
+
+      $rootScope.stoploading = function () {
+        $ionicLoading.hide()
+      }
+    }
+
+  }
+}])
+
+.factory('$exceptionHandler', ['$injector', 'Storage', function ($injector, Storage) {
+  return function myExceptionHandler (exception, cause) {
+    // console.log(exception)
+    // console.log(cause)
+    // console.log($log)
+    var $http = $injector.get('$http')
+    $http({
+      method: 'POST',
+      url: 'http://121.43.107.106:4050/api/v1/log ',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: {
+        'userId': Storage.get('UID'),
+        'role': 'patient',
+        'userProxy': window.navigator.userAgent,
+        'webState': navigator.onLine + '~~' + navigator.connection,
+        'errStack': exception + '~~' + cause
+      }
+    }).then(function successCallback (response) {
+      // console.log(response)
+    // this callback will be called asynchronously
+    // when the response is available
+    }, function errorCallback (response) {
+      // console.log(response)
+    // called asynchronously if an error occurs
+    // or server returns response with an error status.
+    })
+  }
 }])
