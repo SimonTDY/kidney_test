@@ -966,12 +966,12 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
   $scope.submitMsg = function () {
     if ($scope.params.newsType == '11') {
       var targetRole = 'patient'
-      var actionUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb830b12dc0fa74e5&redirect_uri=http://proxy.haihonghospitalmanagement.com/go&response_type=code&scope=snsapi_userinfo&state=' + targetRole + '_' + $scope.params.newsType + '_' + $state.params.type + '_' + $scope.params.UID + '_' + $state.params.counselId + '&#wechat_redirect'
+      var actionUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxab9c316b3076535d&redirect_uri=http://proxy.haihonghospitalmanagement.com/go&response_type=code&scope=snsapi_userinfo&state=' + targetRole + '_' + $scope.params.newsType + '_' + $state.params.type + '_' + $scope.params.UID + '_' + $state.params.counselId + '&#wechat_redirect'
       var template = {
         'userId': $scope.params.chatId, // 患者的UID
         'role': 'patient',
         'postdata': {
-          'template_id': 'N_0kYsmxrQq-tfJhGUo746G8Uem6uHZgK138HIBKI2I',
+          'template_id': '-r2fhWo6ROYiLKzVg_47YbtGTHso7TXto4ScGLBw6go',
           'url': actionUrl,
           'data': {
             'first': {
@@ -1677,13 +1677,6 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
           success: function (res) {
             console.log(res)
             ids[0] = res.serverId // 返回图片的服务器端ID
-            wx.downloadImage({
-              serverId: res.serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
-              isShowProgressTips: 1, // 默认为1，显示进度提示
-              success: function (res) {
-                $scope.testimg = res.localId // 返回图片下载后的本地ID
-              }
-            })
             sendmsg(ids, 'image')
           }
         })
@@ -1792,12 +1785,12 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
 
                         }
                       }
-                      var actionUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb830b12dc0fa74e5&redirect_uri=http://proxy.haihonghospitalmanagement.com/go&response_type=code&scope=snsapi_userinfo&state=patient_11_1_' + DID + '_' + res.results.counselId + '&#wechat_redirect'
+                      var actionUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxab9c316b3076535d&redirect_uri=http://proxy.haihonghospitalmanagement.com/go&response_type=code&scope=snsapi_userinfo&state=patient_11_1_' + DID + '_' + res.results.counselId + '&#wechat_redirect'
                       var template = {
                         'userId': PID, // 患者的UID
                         'role': 'patient',
                         'postdata': {
-                          'template_id': 'N_0kYsmxrQq-tfJhGUo746G8Uem6uHZgK138HIBKI2I',
+                          'template_id': '-r2fhWo6ROYiLKzVg_47YbtGTHso7TXto4ScGLBw6go',
                           'url': actionUrl,
                           'data': {
                             'first': {
@@ -1986,12 +1979,12 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
           var csl = messageRes.msg.content.counsel
           socket.off('messageRes')
           socket.emit('disconnect')
-          var actionUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfa2216ac422fb747&redirect_uri=http://proxy.haihonghospitalmanagement.com/go&response_type=code&scope=snsapi_userinfo&state=doctor_12_2_' + Storage.get('UID') + '_doctor' + '&#wechat_redirect'
+          var actionUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxab9c316b3076535d&redirect_uri=http://proxy.haihonghospitalmanagement.com/go&response_type=code&scope=snsapi_userinfo&state=doctor_12_2_' + Storage.get('UID') + '_doctor' + '&#wechat_redirect'
           var template = {
             'userId': doc.userId, // 医生的UID
             'role': 'doctor',
             'postdata': {
-              'template_id': 'cVLIgOb_JvtFGQUA2KvwAmbT5B3ZB79cRsAM4ZKKK0k',
+              'template_id': 'U1KajBosUqmQSl0MLA3p-BN_v9VnTf5-hty-3UD9N08',
               'url': actionUrl,
               'data': {
                 'first': {

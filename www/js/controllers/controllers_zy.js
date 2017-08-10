@@ -72,9 +72,9 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
                         //     console.log(data);
                         //     $rootScope.$broadcast('receiveMessage',data);
                         // });
-            User.setMessageOpenId({type: 1, userId: Storage.get('UID'), openId: Storage.get('messageopenid')}).then(function (res) {
-            }, function (err) {
-            })
+            // User.setMessageOpenId({type: 1, userId: Storage.get('UID'), openId: Storage.get('messageopenid')}).then(function (res) {
+            // }, function (err) {
+            // })
             User.getAgree({userId: data.results.userId}).then(function (res) {
               if (res.results.agreement == '0') {
                 $timeout(function () { $state.go('tab.home') }, 500)
