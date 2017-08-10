@@ -1677,6 +1677,13 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
           success: function (res) {
             console.log(res)
             ids[0] = res.serverId // 返回图片的服务器端ID
+            wx.downloadImage({
+              serverId: res.serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
+              isShowProgressTips: 1, // 默认为1，显示进度提示
+              success: function (res) {
+                $scope.testimg = res.localId // 返回图片下载后的本地ID
+              }
+            })
             sendmsg(ids, 'image')
           }
         })
