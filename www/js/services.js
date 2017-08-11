@@ -2820,7 +2820,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
         },
         data: {
           'userId': Storage.get('UID'),
-          'role': 'patient',
+          'role': 'doctor',
           'userProxy': window.navigator.userAgent,
           'webState': {
             'onLine': navigator.onLine,
@@ -2860,7 +2860,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
       },
       data: {
         'userId': Storage.get('UID'),
-        'role': 'patient',
+        'role': 'doctor',
         'userProxy': window.navigator.userAgent,
         'webState': {
           'onLine': navigator.onLine,
