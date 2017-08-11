@@ -967,6 +967,8 @@ angular.module('kidney', [
 //   $httpProvider.interceptors.push('jwtInterceptor')
 // }])
 .controller('tabCtrl', ['$state', '$scope', function ($state, $scope) {
+  documnent.getElementById('splashimg').style.display = 'none'
+
   $scope.goHome = function () {
     setTimeout(function () {
       $state.go('tab.home', {})
