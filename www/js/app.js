@@ -299,12 +299,12 @@ angular.module('kidney', [
     // 注册与登录
   $stateProvider
     // 初始加载页
-    .state('welcome', {
-      cache: false,
-      url: '/welcome',
-      templateUrl: 'partials/others/welcome.html',
-      controller: 'welcomeCtrl'
-    })
+    // .state('welcome', {
+    //   cache: false,
+    //   url: '/welcome',
+    //   templateUrl: 'partials/others/welcome.html',
+    //   controller: 'welcomeCtrl'
+    // })
     // 登陆
     .state('signin', {
       cache: false,
@@ -866,7 +866,7 @@ angular.module('kidney', [
       }
     })
 
-  $urlRouterProvider.otherwise('/welcome')
+  // $urlRouterProvider.otherwise('/welcome')
 })
 
 // $httpProvider.interceptors提供http request及response的预处理
