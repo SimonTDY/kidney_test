@@ -25,7 +25,7 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
     //     });
 
     if ((logOn.username != '') && (logOn.password != '')) {
-      var phoneReg = /^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/
+      var phoneReg = /^(13[0-9]|15[012356789]|17[5678]|18[0-9]|14[57])[0-9]{8}$/
             // 手机正则表达式验证
       if (!phoneReg.test(logOn.username)) {
         $scope.logStatus = '手机号验证失败！'
@@ -189,7 +189,7 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
       $scope.logStatus = '手机号码不能为空！'
       return
     }
-    var phoneReg = /^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/
+    var phoneReg = /^(13[0-9]|15[012356789]|17[5678]|18[0-9]|14[57])[0-9]{8}$/
         // 手机正则表达式验证
     if (!phoneReg.test(Verify.Phone)) {
       $scope.logStatus = '请输入正确的手机号码！'
@@ -308,7 +308,7 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
     if (Verify.Phone != '' && Verify.Code != '') {
       var tempVerify = 123
             // 结果分为三种：(手机号验证失败)1验证成功；2验证码错误；3连接超时，验证失败
-      var phoneReg = /^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/
+      var phoneReg = /^(13[0-9]|15[012356789]|17[5678]|18[0-9]|14[57])[0-9]{8}$/
             // 手机正则表达式验证
       if (phoneReg.test(Verify.Phone)) {
                 // 测试用
@@ -2460,7 +2460,7 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
           text: '確定',
           type: 'button-positive',
           onTap: function (event) {
-            var phoneReg = /^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/
+            var phoneReg = /^(13[0-9]|15[012356789]|17[5678]|18[0-9]|14[57])[0-9]{8}$/
             var emailReg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
                         // 手机正则表达式验证
             if (!phoneReg.test($scope.ap.a) && !emailReg.test($scope.ap.a)) {
@@ -2952,8 +2952,7 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
 .controller('welcomeCtrl', ['$scope', '$state', function ($scope, $state) {
   $ionicHistory.clearHistory()
   $ionicHistory.nextViewOptions({
-    disableBack: true,
-    disableAnimate: true
+    disableBack: true
   })
   var width = window.screen.width
   var height = window.screen.height
