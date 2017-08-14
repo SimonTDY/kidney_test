@@ -224,45 +224,44 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
             // 验证手机号是否注册，没有注册的手机号不允许重置密码
       User.getUserId({
         username: Verify.Phone
-      })
-            .then(function (succ) {
-              console.log(succ)
-              if ($stateParams.phonevalidType == 'wechat') {
-                User.getUserId({username: Verify.Phone}).then(function (data) {
-                  if (data.results == 0) {
-                    tempuserId = data.UserId
-                    if (data.roles.indexOf('doctor') == -1) {
-                      $scope.logStatus = '该手机号码没有医生权限,请确认手机号码或返回登录页面进行注册！'
-                    } else {
-                      $scope.logStatus = '该手机号码已经注册,请验证手机号绑定微信'
-                      isregisted = true
-                      sendSMS(Verify.Phone)
-                    }
-                  } else {
-                    $scope.logStatus = '该用户不存在！请返回登录页面进行注册！'
-                  }
-                }, function () {
-                  $scope.logStatus = '连接超时！'
-                })
-              } else if (validMode == 0) {
-                if (succ.mesg == "User doesn't Exist!") {
-                  sendSMS(Verify.Phone)
-                } else {
-                  if (succ.roles.indexOf('doctor') != -1) {
-                    $scope.logStatus = '您已经注册过了'
-                  } else {
-                    sendSMS(Verify.Phone)
-                  }
-                }
-              } else if (validMode == 1 && succ.mesg == "User doesn't Exist!") {
-                $scope.logStatus = '您还没有注册呢！'
+      }).then(function (succ) {
+        console.log(succ)
+        if ($stateParams.phonevalidType == 'wechat') {
+          User.getUserId({username: Verify.Phone}).then(function (data) {
+            if (data.results == 0) {
+              tempuserId = data.UserId
+              if (data.roles.indexOf('doctor') == -1) {
+                $scope.logStatus = '该手机号码没有医生权限,请确认手机号码或返回登录页面进行注册！'
               } else {
+                $scope.logStatus = '该手机号码已经注册,请验证手机号绑定微信'
+                isregisted = true
                 sendSMS(Verify.Phone)
               }
-            }, function (err) {
-              console.log(err)
-              $scope.logStatus = '网络错误！'
-            })
+            } else {
+              $scope.logStatus = '该用户不存在！请返回登录页面进行注册！'
+            }
+          }, function () {
+            $scope.logStatus = '连接超时！'
+          })
+        } else if (validMode == 0) {
+          if (succ.mesg == "User doesn't Exist!") {
+            sendSMS(Verify.Phone)
+          } else {
+            if (succ.roles.indexOf('doctor') != -1) {
+              $scope.logStatus = '您已经注册过了'
+            } else {
+              sendSMS(Verify.Phone)
+            }
+          }
+        } else if (validMode == 1 && succ.mesg == "User doesn't Exist!") {
+          $scope.logStatus = '您还没有注册呢！'
+        } else {
+          sendSMS(Verify.Phone)
+        }
+      }, function (err) {
+        console.log(err)
+        $scope.logStatus = '网络错误！'
+      })
     }
   }
 
