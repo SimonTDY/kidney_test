@@ -183,7 +183,7 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
 
   // 发送验证码
   var sendSMS = function (phone) {
-    var SMS = User.sendSMS({mobile: Verify.Phone, smsType: 2})
+    var SMS = User.sendSMS({mobile: phone, smsType: 2})
     SMS.then(function (data) {
       unablebutton()
       if (data.results == 1) {
@@ -236,7 +236,7 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
                     } else {
                       $scope.logStatus = '该手机号码已经注册,请验证手机号绑定微信'
                       isregisted = true
-                      sendSMS()
+                      sendSMS(Verify.Phone)
                     }
                   } else {
                     $scope.logStatus = '该用户不存在！请返回登录页面进行注册！'
@@ -246,18 +246,18 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
                 })
               } else if (validMode == 0) {
                 if (succ.mesg == "User doesn't Exist!") {
-                  sendSMS()
+                  sendSMS(Verify.Phone)
                 } else {
                   if (succ.roles.indexOf('doctor') != -1) {
                     $scope.logStatus = '您已经注册过了'
                   } else {
-                    sendSMS()
+                    sendSMS(Verify.Phone)
                   }
                 }
               } else if (validMode == 1 && succ.mesg == "User doesn't Exist!") {
                 $scope.logStatus = '您还没有注册呢！'
               } else {
-                sendSMS()
+                sendSMS(Verify.Phone)
               }
             }, function (err) {
               console.log(err)
