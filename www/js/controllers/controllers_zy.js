@@ -180,6 +180,30 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
       }
     }, 1000)
   }
+
+  // 发送验证码
+  var sendSMS = function (phone) {
+    var SMS = User.sendSMS({mobile: Verify.Phone, smsType: 2})
+    SMS.then(function (data) {
+      unablebutton()
+      if (data.results == 1) {
+        $scope.logStatus = '验证码发送失败，请稍后再试'
+      } else {
+        if (data.mesg.substr(0, 8) == '您的邀请码已发送') {
+          $scope.logStatus = '您的验证码已发送，重新获取请稍后'
+        } else {
+          $scope.logStatus = '验证码发送成功！'
+        }
+      }
+    }, function (err) {
+      if (err.results == null && err.status == 0) {
+        $scope.logStatus = '连接超时!'
+        return
+      }
+      $scope.logStatus = '验证码发送失败！'
+    })
+  }
+
   var isregisted = false
     // 点击获取验证码
   $scope.getcode = function (Verify) {
@@ -212,22 +236,7 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
                     } else {
                       $scope.logStatus = '该手机号码已经注册,请验证手机号绑定微信'
                       isregisted = true
-                      User.sendSMS({
-                        mobile: Verify.Phone,
-                        smsType: 2
-                      })
-                                .then(function (data) {
-                                  unablebutton()
-                                  if (data.mesg.substr(0, 8) == '您的邀请码已发送') {
-                                    $scope.logStatus = '您的验证码已发送，重新获取请稍后'
-                                  } else if (data.results == 1) {
-                                    $scope.logStatus = '验证码发送失败，请稍后再试'
-                                  } else {
-                                    $scope.logStatus = '验证码发送成功！'
-                                  }
-                                }, function (err) {
-                                  $scope.logStatus = '验证码发送失败！'
-                                })
+                      sendSMS()
                     }
                   } else {
                     $scope.logStatus = '该用户不存在！请返回登录页面进行注册！'
@@ -237,63 +246,18 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
                 })
               } else if (validMode == 0) {
                 if (succ.mesg == "User doesn't Exist!") {
-                  User.sendSMS({
-                    mobile: Verify.Phone,
-                    smsType: 2
-                  })
-                        .then(function (data) {
-                          unablebutton()
-                          if (data.mesg.substr(0, 8) == '您的邀请码已发送') {
-                            $scope.logStatus = '您的验证码已发送，重新获取请稍后'
-                          } else if (data.results == 1) {
-                            $scope.logStatus = '验证码发送失败，请稍后再试'
-                          } else {
-                            $scope.logStatus = '验证码发送成功！'
-                          }
-                        }, function (err) {
-                          $scope.logStatus = '验证码发送失败！'
-                        })
+                  sendSMS()
                 } else {
                   if (succ.roles.indexOf('doctor') != -1) {
                     $scope.logStatus = '您已经注册过了'
                   } else {
-                    User.sendSMS({
-                      mobile: Verify.Phone,
-                      smsType: 2
-                    })
-                            .then(function (data) {
-                              unablebutton()
-                              if (data.mesg.substr(0, 8) == '您的邀请码已发送') {
-                                $scope.logStatus = '您的验证码已发送，重新获取请稍后'
-                              } else if (data.results == 1) {
-                                $scope.logStatus = '验证码发送失败，请稍后再试'
-                              } else {
-                                $scope.logStatus = '验证码发送成功！'
-                              }
-                            }, function (err) {
-                              $scope.logStatus = '验证码发送失败！'
-                            })
+                    sendSMS()
                   }
                 }
               } else if (validMode == 1 && succ.mesg == "User doesn't Exist!") {
                 $scope.logStatus = '您还没有注册呢！'
               } else {
-                User.sendSMS({
-                  mobile: Verify.Phone,
-                  smsType: 2
-                })
-                    .then(function (data) {
-                      unablebutton()
-                      if (data.mesg.substr(0, 8) == '您的邀请码已发送') {
-                        $scope.logStatus = '您的验证码已发送，重新获取请稍后'
-                      } else if (data.results == 1) {
-                        $scope.logStatus = '验证码发送失败，请稍后再试'
-                      } else {
-                        $scope.logStatus = '验证码发送成功！'
-                      }
-                    }, function (err) {
-                      $scope.logStatus = '验证码发送失败！'
-                    })
+                sendSMS()
               }
             }, function (err) {
               console.log(err)
