@@ -1823,6 +1823,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                             // socket.on('messageRes', function(data) {
                             // socket.off('messageRes');
                         socket.emit('disconnect')
+                        $ionicLoading.show({ template: '回复成功'})
                         setTimeout(function () {
                           $ionicLoading.hide()
                           $state.go('tab.groups', { type: '0' })
