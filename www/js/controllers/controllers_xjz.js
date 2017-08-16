@@ -776,6 +776,12 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
       $scope.modal.show()
     } else {
       Storage.set('getpatientId', args[1].content.patientId)
+      var statep = {
+        type: $scope.params.type,
+        chatId: $scope.params.chatId
+      }
+      Storage.set('backId', 'tab.detail')
+      Storage.set('singleChatParams', JSON.stringify(statep))
       $state.go('tab.patientDetail')
     }
   })
@@ -793,6 +799,12 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         return $state.go('tab.group-profile', { memberId: args[1].fromID })
       } else {
         Storage.set('getpatientId', args[1].fromID)
+        var statep = {
+          type: $scope.params.type,
+          chatId: $scope.params.chatId
+        }
+        Storage.set('backId', 'tab.detail')
+        Storage.set('singleChatParams', JSON.stringify(statep))
         return $state.go('tab.patientDetail')
       }
     }
