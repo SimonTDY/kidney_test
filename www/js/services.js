@@ -48,10 +48,10 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
   crossKey: 'fe7b9ba069b80316653274e4',
   appKey: 'cf32b94444c4eaacef86903e',
   baseUrl: 'http://docker.haihonghospitalmanagement.com/api/v1/',
-  mediaUrl: 'http://http://ttt.go5le.net/uploads',
+  mediaUrl: 'http://df.haihonghospitalmanagement.com/uploads',
   socketUrl: 'http://docker.haihonghospitalmanagement.com/chat',
-  imgThumbUrl: 'http://http://ttt.go5le.net/uploads',
-  imgLargeUrl: 'http://http://ttt.go5le.net/uploads',
+  imgThumbUrl: 'http://df.haihonghospitalmanagement.com/uploads',
+  imgLargeUrl: 'http://df.haihonghospitalmanagement.com/uploads',
   cameraOptions: {
     cam: {
       quality: 60,
@@ -2793,7 +2793,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
   return self
 }])
 
-.factory('checknetwork', ['$q', '$ionicLoading', '$rootScope', '$injector', 'Storage', function ($q, $ionicLoading, $rootScope, $injector, Storage) {
+.factory('checknetwork', ['$q', '$ionicLoading', '$rootScope', '$injector', 'Storage', 'CONFIG', function ($q, $ionicLoading, $rootScope, $injector, Storage, CONFIG) {
   return {
     checknetwork: function (err) {
       $rootScope.$watch('online', function () {
@@ -2814,7 +2814,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
       var $http = $injector.get('$http')
       $http({
         method: 'POST',
-        url: 'http://121.43.107.106:4050/api/v1/log ',
+        url: CONFIG.baseUrl + 'log',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -2846,7 +2846,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
   }
 }])
 
-.factory('$exceptionHandler', ['$injector', 'Storage', function ($injector, Storage) {
+.factory('$exceptionHandler', ['$injector', 'Storage', 'CONFIG', function ($injector, Storage, CONFIG) {
   return function myExceptionHandler (exception, cause) {
     console.log(exception)
     console.log(cause)
@@ -2854,7 +2854,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
     var $http = $injector.get('$http')
     $http({
       method: 'POST',
-      url: 'http://121.43.107.106:4050/api/v1/log ',
+      url: CONFIG.baseUrl + 'log',
       headers: {
         'Content-Type': 'application/json'
       },
