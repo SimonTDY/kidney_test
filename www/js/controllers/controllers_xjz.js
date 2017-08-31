@@ -633,8 +633,8 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
       var msgJson = {
         clientType: 'wechatdoctor',
         contentType: 'custom',
-        fromID: thisDoctor.userId,
-        fromName: thisDoctor.name,
+        fromID: $scope.params.UID,    //count-notice消息不会真正发送，只是push到$scope.msgs里的一个提示消息
+        fromName: '',                 //所以fromID与fromName传什么不影响功能
         fromUser: {
                     // avatarPath:CONFIG.mediaUrl+'uploads/photos/resized'+thisDoctor.userId+'_myAvatar.jpg'
         },
