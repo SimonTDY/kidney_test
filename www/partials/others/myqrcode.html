@@ -1,10 +1,11 @@
 <ion-view title="我的二维码">
-
+    <ion-nav-bar class="bar-positive " align-title="center">
+    </ion-nav-bar>
     <ion-content has-bouncing="true" overflow-scroll="false">
         <div class="myinfo-avatar">
           <div class="img-cen ">
             <div>
-                <img ng-src="{{doctor.photoUrl||'img/doctor.png'}}">
+                <img ng-src="{{doctor.photoUrl|changedoctorimgip}}">
             </div>
           </div>
           <span class="f16">{{doctor.name}}</span>
