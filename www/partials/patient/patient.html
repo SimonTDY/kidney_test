@@ -43,12 +43,12 @@
                         <span ng-if = "!(p.patientId.birthday)">年龄未知</span>
                         <span style="float: right">{{p.dpRelationTime |dateFormat:"YYYY-MM-DD"}}</span>
                         <!-- <span class="mine-msg-right">{{p.patientId.diagnosisInfo[p.patientId.diagnosisInfo.length-1].name| classname}}</span> -->
-                        <div style="display:inline-block;color:#d81e06;">
+                        <!-- <div style="display:inline-block;color:#d81e06;">
                             <i style="" class="iconfont icon-vip f-24" ng-if="p.patientId.VIP==1"></i>
-                        </div>
+                        </div> -->
                         <p style="position: absolute;">
                         <img ng-src="img/vip.png" style="width: 20px;height: 20px;position: relative;top: 5px" ng-if="p.patientId.VIP==1" alt="">
-                        <img ng-src="img/adr.png" style='width: 20px;height: 20px;position: relative;top: 5px' ng-if="p.labels[0].group==1" alt="">
+                        <img ng-src="img/adr.png" style='width: 20px;height: 20px;position: relative;top: 5px' ng-if="p.patientId.group==1" alt="">
                         <i class="y-message bg-12" ng-if="p.patientId.class=='class_2'">CKD1-2期</i>
                         <i class="y-message bg-12" ng-if="p.patientId.class=='class_3'">CKD3-4期</i>
                         <i class="y-message bg-12" ng-if="p.patientId.class=='class_4'">CDK5期</i>
@@ -73,12 +73,12 @@
                         <span ng-if = "!(t.patientId.birthday)">年龄未知</span>
                         <span style="float: right">{{t.dpRelationTime |dateFormat:"YYYY-MM-DD"}}</span>
                         <!-- <span class="mine-msg-right">{{p.patientId.diagnosisInfo[p.patientId.diagnosisInfo.length-1].name| classname}}</span> -->
-                        <div style="display:inline-block;color:#d81e06;">
+                        <!-- <div style="display:inline-block;color:#d81e06;">
                             <i style="" class="iconfont icon-vip f-24" ng-if="t.patientId.VIP==1"></i>
-                        </div>
+                        </div> -->
                         <p style="position: absolute;">
                         <img ng-src="img/vip.png" style="width: 20px;height: 20px;position: relative;top: 5px" ng-if="t.patientId.VIP==1" alt="">
-                        <img ng-src="img/adr.png" style='width: 20px;height: 20px;position: relative;top: 5px' ng-if="t.labels[0].group==1" alt="">
+                        <img ng-src="img/adr.png" style='width: 20px;height: 20px;position: relative;top: 5px' ng-if="t.patientId.group==1" alt="">
                         <i class="y-message bg-12" ng-if="t.patientId.class=='class_2'">CKD1-2期</i>
                         <i class="y-message bg-12" ng-if="t.patientId.class=='class_3'">CKD3-4期</i>
                         <i class="y-message bg-12" ng-if="t.patientId.class=='class_4'">CDK5期</i>
