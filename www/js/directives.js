@@ -142,6 +142,7 @@ angular.module('kidney.directives', ['kidney.services'])
       multilineText: '=info'
     },
     restrict: 'AE',
+    transclude: true,
     link: function (scope, elem) {
       scope.multilineText = scope.multilineText.replace(/ /g, '&nbsp;')
       elem[0].innerHTML = scope.multilineText.replace(/\n/g, '<br/>')
