@@ -4,7 +4,7 @@
     <div>
         <div ng-if="msg.fromID!=me" class="msg-name">{{msg.fromName}}</div>
         <div class="msg-body" on-hold="emitEvent('holdmsg',msg.createTimeInMillis,$event,'text')">
-        <div class="media-text">{{msg.content.text}}</div>
+        <div multiline-text class="media-text" info="msg.content.text"></div>
         </div>
     </div>
     <div my-small-spin="msg.status" class="status"></div>
